@@ -22,8 +22,8 @@ export const AppRoutes = () => {
       ))}
       <Route element={<AuthGuard roles={["ROLE_USER"]} />}>
         <Route path="/" element={<UserLayout />}>
-          <Route path='profile' element={<Profile />} />
           <Route index element={<Home />} />
+          <Route path='profile' element={<Profile />} />
           <Route path="checkout" element={<Checkout />} />
           {UserRoutes.map((r, i) => (
             <Route key={i} path={r.path} element={r.element} />

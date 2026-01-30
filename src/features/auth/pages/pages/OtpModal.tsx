@@ -52,7 +52,7 @@ export const OtpModal = ({ onClose }: { onClose: () => void }) => {
 
       login(user); // context + storage
 
-      navigate(user.role === "ROLE_ADMIN" ? "/admin" : "/home");
+      navigate(user.role === "ROLE_ADMIN" ? "/admin" : "/");
 
     } catch (err) {
       setAlert({ type: "danger", message: "Server error" })

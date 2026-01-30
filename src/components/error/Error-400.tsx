@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 
 export const Error400 = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="position-absolute top-0 end-0">
@@ -30,9 +31,9 @@ export const Error400 = () => {
                   <p className="text-muted">The request couldn’t be processed. Please check the URL or try again.</p>
 
                   <div className="d-flex justify-content-center gap-2 mt-4">
-                    <button className="btn btn-outline-secondary">Go Back</button>
+                    <button className="btn btn-outline-secondary" onClick={() => navigate(-1)}>Go Back</button>
 
-                    <NavLink className="btn btn-primary" to={"/admin"}>Back to Dashboard</NavLink>
+                    <button className="btn btn-primary" >Back to Dashboard</button>
                   </div>
                 </div>
               </div>

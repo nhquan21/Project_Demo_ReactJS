@@ -1,8 +1,8 @@
 import { cartRoutes } from "./cart/cart.routes";
-import { EmailRoutes } from "./email/email.routes";
+import { emailRoutes } from "./email/email.routes";
 
 
 export const UserRoutes = [
     ...cartRoutes,
-    ...EmailRoutes
+    ...emailRoutes
 ];

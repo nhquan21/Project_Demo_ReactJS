@@ -69,7 +69,7 @@ export const FormLogin = ({ onSubmit }: FormLoginProps) => {
 
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <div className="form-check">
-                            <input className="form-check-input form-check-input-light fs-14" type="checkbox" checked id="rememberMe" />
+                            <input className="form-check-input form-check-input-light fs-14" type="checkbox" id="rememberMe" />
                             <label className="form-check-label" htmlFor="rememberMe">Keep me signed in</label>
                         </div>
                         <a href="auth-reset-pass.html" className="text-decoration-underline link-offset-3 text-muted">Forgot Password?</a>

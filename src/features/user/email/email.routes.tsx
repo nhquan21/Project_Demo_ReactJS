@@ -1,13 +1,13 @@
 import { EmailDetails } from "./pages/EmailDetails";
 import { EmailPage } from "./pages/EmailPage";
 
-export const EmailRoutes = [
+export const emailRoutes = [
     {
-        path: "/",
+        path: "/email",
         element: <EmailPage />
     },
     {
-        path: "/details",
+        path: "/email-details",
         element: <EmailDetails />
     }
 ]

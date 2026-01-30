@@ -1,6 +1,7 @@
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const Error403 = () => {
+    const navigate = useNavigate();
     return (
         <>
             <div className="position-absolute top-0 end-0">
@@ -33,8 +34,8 @@ export const Error403 = () => {
                                     </p>
 
                                     <div className="mt-4 d-flex justify-content-center gap-1">
-                                        <NavLink className="btn btn-primary" to={"/admin"}>Go to Dashboard</NavLink>
-                                        <button className="btn btn-outline-secondary">Back</button>
+                                        {/* <NavLink className="btn btn-primary" to={"/admin"}>Go to Dashboard</NavLink> */}
+                                        <button className="btn btn-outline-secondary" onClick={() => navigate(-1)}>Go Back</button>
                                     </div>
                                 </div>
                             </div>

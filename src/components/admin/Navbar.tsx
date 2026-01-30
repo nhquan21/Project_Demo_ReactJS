@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import type { AuthenticationResponse } from '../../features/auth/authType';
 import { clearItem, getUserStorage } from '../../utils/auth';
 
@@ -190,26 +190,16 @@ export const Navbar = () => {
                             </div>
                         </li>
                         <li className="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#email" aria-expanded="false" aria-controls="email" className="side-nav-link">
+                            <NavLink data-bs-toggle="collapse" to={"/email"} aria-expanded="false" aria-controls="email" className="side-nav-link">
                                 <span className="menu-icon"><i className="ti ti-mailbox"></i></span>
                                 <span className="menu-text" data-lang="email">Email</span>
                                 <span className="badge text-bg-danger ms-auto">New</span>
-                            </a>
+                            </NavLink>
                             <div className="collapse" id="email">
                                 <ul className="sub-menu">
                                     <li className="side-nav-item">
-                                        <NavLink to="apps-email-inbox.html" className="side-nav-link">
-                                            <span className="menu-text" data-lang="apps-email-inbox">Inbox</span>
-                                        </NavLink>
-                                    </li>
-                                    <li className="side-nav-item">
                                         <NavLink to="apps-email-details.html" className="side-nav-link">
                                             <span className="menu-text" data-lang="apps-email-details">Details</span>
-                                        </NavLink>
-                                    </li>
-                                    <li className="side-nav-item">
-                                        <NavLink to="apps-email-compose.html" className="side-nav-link">
-                                            <span className="menu-text" data-lang="apps-email-compose">Compose</span>
                                         </NavLink>
                                     </li>
                                 </ul>

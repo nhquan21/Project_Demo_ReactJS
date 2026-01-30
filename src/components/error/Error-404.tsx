@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 
 export const Error404 = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="position-absolute top-0 end-0">
@@ -30,8 +31,8 @@ export const Error404 = () => {
                   <p className="text-muted fs-5">We couldn’t find the page you were looking for. It might have been moved or deleted.</p>
 
                   <div className="mt-4 d-flex justify-content-center gap-1">
-                    <NavLink className="btn btn-primary" to={"/admin"}>Back to Home</NavLink>
-                    <button className="btn btn-outline-info">Search</button>
+                    {/* <NavLink className="btn btn-primary" to={"/admin"}>Back to Home</NavLink> */}
+                    <button className="btn btn-outline-info" onClick={() => navigate(-1)}>Go Back</button>
                   </div>
                 </div>
               </div>
