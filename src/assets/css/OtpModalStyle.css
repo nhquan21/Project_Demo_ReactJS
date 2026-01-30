@@ -1,0 +1,137 @@
+/* Overlay */
+.otp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Modal */
+.opt-form {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 28px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  animation: otpFadeIn 0.35s ease;
+}
+
+/* Header */
+.header-form {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.auth-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7667ff, #4f46e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-icon i {
+  font-size: 32px;
+  color: #fff;
+}
+
+.header-form h4 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.header-form p {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* OTP inputs */
+.auth-pin-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.auth-pin-wrap .code-input {
+  width: 48px;
+  height: 56px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+.auth-pin-wrap .code-input:focus {
+  border-color: #7667ff;
+  box-shadow: 0 0 0 3px rgba(118, 103, 255, 0.2);
+  outline: none;
+}
+
+/* Buttons */
+.btn-wrap button {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7667ff, #4f46e5);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-wrap button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(118, 103, 255, 0.35);
+}
+
+/* Footer */
+.otp-footer {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.otp-footer span {
+  color: #7667ff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Animation */
+@keyframes otpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile */
+@media (max-width: 420px) {
+  .auth-pin-wrap .code-input {
+    width: 44px;
+    height: 52px;
+    font-size: 20px;
+  }
+}

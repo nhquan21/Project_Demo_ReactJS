@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>CRM Dashboard | Responsive Bootstrap 5 Admin Dashboard Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Paces is a modern, responsive admin dashboard available on ThemeForest. Ideal for building CRM, CMS, project management tools, and custom web applications with a clean UI, flexible layouts, and rich features." />
+  <meta name="keywords"
+    content="Paces, admin dashboard, ThemeForest, Bootstrap 5 admin, responsive admin, CRM dashboard, CMS admin, web app UI, admin theme, premium admin template" />
+  <meta name="author" content="Coderthemes" />
+
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="/src/assets/images/favicon.ico" />
+
+
+  <!-- Vector Maps css -->
+  <link href="/src/assets/plugins/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+  <!-- Theme Config Js -->
+  <script src="/src/assets/js/config.js"></script>
+  <script src="/src/assets/demo.js"></script>
+
+  <!-- Vendor css -->
+  <link href="/src/assets/css/vendors.min.css" rel="stylesheet" type="text/css" />
+
+  <!-- App css -->
+  <link href="/src/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  <script>
+    // Sidenav Link Activation
+    const currentUrlT = window.location.href.split(/[?#]/)[0];
+    const currentPageT = window.location.pathname.split("https://coderthemes.com/").pop();
+    const sideNavT = document.querySelector('.side-nav');
+
+    document.querySelectorAll('.side-nav-link[href]').forEach(link => {
+      const linkHref = link.getAttribute('href');
+      if (!linkHref) return;
+
+      const match = linkHref === currentPageT || link.href === currentUrlT;
+
+      if (match) {
+        // Mark link and its li active
+        link.classList.add('active');
+        const li = link.closest('li.side-nav-item');
+        if (li) li.classList.add('active');
+
+        // Expand all parent .collapse and set toggles
+        let parentCollapse = link.closest('.collapse');
+        while (parentCollapse) {
+          parentCollapse.classList.add('show');
+          parentCollapse.style.height = '100%';
+
+          const parentToggle = document.querySelector(`a[href="#${parentCollapse.id}"]`);
+          if (parentToggle) {
+            parentToggle.setAttribute('aria-expanded', 'true');
+            const parentLi = parentToggle.closest('li.side-nav-item');
+            if (parentLi) parentLi.classList.add('active');
+          }
+
+          parentCollapse = parentCollapse.parentElement.closest('.collapse');
+        }
+      }
+    });
+  </script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script src="/src/assets/js/vendors.min.js"></script>
+
+  <!-- App js -->
+  <script src="/src/assets/js/app.js"></script>
+
+
+  <!-- Apex Chart js -->
+  <script src="/src/assets/plugins/apexcharts/apexcharts.min.js"></script>
+
+  <!-- Vector Map Js -->
+  <script src="/src/assets/plugins/jsvectormap/jsvectormap.min.js"></script>
+  <script src="/src/assets/js/maps/world-merc.js"></script>
+  <script src="/src/assets/js/maps/world.js"></script>
+
+  <!-- Custom table -->
+  <script src="/src/assets/js/pages/custom-table.js"></script>
+
+  <!-- Dashboard js -->
+  <script src="/src/assets/js/pages/dashboard-crm.js"></script>
+  <script></script>
+</body>
+
+</html>
