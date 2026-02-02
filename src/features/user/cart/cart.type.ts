@@ -19,9 +19,14 @@ export type OrderItemRequest = {
   priceAtPurchase:number
 }
 
+export type CartResponse = {
+  customerId:string,
+  totalAmount: number,
+  transactionDate: string
+}
+
 export type CartRequest = {
   customerId: string,
   totalAmount: number,
   items:OrderItemRequest[]
-
 }

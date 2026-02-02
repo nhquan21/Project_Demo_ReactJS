@@ -57,6 +57,7 @@ type Props = {
   children: ReactNode;
 }
 
+//Tạo AuthProvider
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<AuthenticationResponse | null>(null);
   const [authLoading, setAuthLoading] = useState(true);

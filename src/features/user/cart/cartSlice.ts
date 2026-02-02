@@ -8,24 +8,28 @@ type CartState = {
   totalAmount: number;
 };
 
+//lấy các danh sách các cart state lưu trong storage tránh khi reload page mất dữ liệu
 const persistedCart = loadCart();
 
+//Khai báo type State
 const initialState: CartState = persistedCart || {
   items: [],
   totalQuantity: 0,
   totalAmount: 0,
 };
 
+//Hàm tính tổng
 const calculateTotals = (items: CartItem[]) => {
   const totalQuantity = items.reduce((sum, i) => sum + i.quantity, 0);
   const totalAmount = items.reduce((sum, i) => sum + i.quantity * i.price, 0);
   return { totalQuantity, totalAmount };
 };
 
+//Tạo slice
 const cartSlice = createSlice({
-  name: "cart",
-  initialState,
-  reducers: {
+  name: "cart", //Prefix cho action type
+  initialState, //State ban đầu
+  reducers: { //Nơi viết logic thay đổi state
     
     addToCart: (state, action: PayloadAction<Omit<CartItem, "quantity">>) => {
       const existing = state.items.find(i => i.publicId === action.payload.publicId);

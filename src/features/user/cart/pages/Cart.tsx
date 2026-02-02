@@ -4,8 +4,8 @@ import { incrementQty, decrementQty, removeFromCart } from "../cartSlice";
 import { Link } from "react-router-dom";
 
 export const Cart = () => {
-    const dispatch = useDispatch();
-    const cartItems = useSelector((state: RootState) => state.cart.items);
+    const dispatch = useDispatch();//Gửi hành động thay đổi dữ liệu
+    const cartItems = useSelector((state: RootState) => state.cart.items); //Đồng bộ UI theo state
     const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
 
      const totalPriceItem = (price: number, qty: number) => price * qty;
