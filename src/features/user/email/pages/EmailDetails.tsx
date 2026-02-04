@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const EmailDetails = () => {
   return (
@@ -23,7 +24,7 @@ export const EmailDetails = () => {
                         <div className="offcanvas-lg offcanvas-start outlook-left-menu outlook-left-menu-sm" tabIndex={-1} id="emailSidebaroffcanvas">
                             <div className="card h-100 mb-0 rounded-end-0" data-simplebar>
                                 <div className="card-body">
-                                    <a href="apps-email-compose.html" className="btn btn-danger fw-medium w-100">Compose</a>
+                                    <Link to={"/email-compose"} className="btn btn-danger fw-medium w-100">Compose</Link>
 
                                     <div className="list-group list-group-flush list-custom mt-3">
                                         <a href="apps-email-inbox.html" className="list-group-item list-group-item-action active">
@@ -32,7 +33,7 @@ export const EmailDetails = () => {
                                             <span className="badge align-middle bg-danger-subtle fs-xxs text-danger float-end">21</span>
                                         </a>
 
-                                        <a href="javascript: void(0);" className="list-group-item list-group-item-action">
+                                        {/* <a href="javascript: void(0);" className="list-group-item list-group-item-action">
                                             <i className="ti ti-send-2 me-1 opacity-75 fs-lg align-middle"></i>
                                             <span className="align-middle">Sent</span>
                                         </a>
@@ -66,31 +67,7 @@ export const EmailDetails = () => {
                                         <a href="javascript: void(0);" className="list-group-item list-group-item-action">
                                             <i className="ti ti-trash me-1 opacity-75 fs-lg align-middle"></i>
                                             <span className="align-middle">Trash</span>
-                                        </a>
-
-                                        <div className="list-group-item mt-2">
-                                            <span className="align-middle">Labels</span>
-                                        </div>
-
-                                        <a href="javascript: void(0);" className="list-group-item list-group-item-action">
-                                            <i className="ti ti-chart-donut me-1 align-middle fs-sm text-primary"></i>
-                                            <span className="align-middle">Business</span>
-                                        </a>
-
-                                        <a href="javascript: void(0);" className="list-group-item list-group-item-action">
-                                            <i className="ti ti-chart-donut me-1 align-middle fs-sm text-secondary"></i>
-                                            <span className="align-middle">Personal</span>
-                                        </a>
-
-                                        <a href="javascript: void(0);" className="list-group-item list-group-item-action">
-                                            <i className="ti ti-chart-donut me-1 align-middle fs-sm text-info"></i>
-                                            <span className="align-middle">Friends</span>
-                                        </a>
-
-                                        <a href="javascript: void(0);" className="list-group-item list-group-item-action">
-                                            <i className="ti ti-chart-donut me-1 align-middle fs-sm text-warning"></i>
-                                            <span className="align-middle">Family</span>
-                                        </a>
+                                        </a> */}
                                     </div>
                                 </div>
                                 {/* <!-- end card-body--> */}
@@ -156,7 +133,7 @@ export const EmailDetails = () => {
                                 <div className="pb-3">
                                     <div className="d-flex align-items-center">
                                         <a className="d-flex align-items-center flex-grow-1 text-reset" data-bs-toggle="collapse" href="#EmailOne" role="button" aria-expanded="false" aria-controls="EmailOne">
-                                            <img src="assets/images/users/user-3.jpg" className="avatar-md rounded-circle" alt="User Avatar" />
+                                            <img src="/src/assets/images/users/user-3.jpg" className="avatar-md rounded-circle" alt="User Avatar" />
                                             <div className="ms-2 overflow-hidden">
                                                 <h5 className="fs-sm mb-0 text-truncate">John Maxwell</h5>
                                                 <p className="text-muted mb-0 text-truncate">john.maxwell@uxstudio.com</p>
@@ -196,7 +173,7 @@ export const EmailDetails = () => {
                                 <div className="py-3 border-top border-dashed">
                                     <div className="d-flex align-items-center">
                                         <a className="d-flex align-items-center flex-grow-1 text-reset" data-bs-toggle="collapse" href="#EmailThree" role="button" aria-expanded="false" aria-controls="EmailThree">
-                                            <img src="assets/images/users/user-6.jpg" className="avatar-md rounded-circle" alt="User Avatar" />
+                                            <img src="/src/assets/images/users/user-6.jpg" className="avatar-md rounded-circle" alt="User Avatar" />
                                             <div className="ms-2 overflow-hidden">
                                                 <h5 className="fs-sm mb-0 text-truncate">Anika Patel</h5>
                                                 <p className="text-muted mb-0 text-truncate">anika@creativemix.net</p>
@@ -250,7 +227,7 @@ export const EmailDetails = () => {
                                 <div className="py-3 border-top border-dashed">
                                     <div className="d-flex align-items-center">
                                         <a className="d-flex align-items-center flex-grow-1 text-reset" data-bs-toggle="collapse" href="#EmailTwo" role="button" aria-expanded="false" aria-controls="EmailTwo">
-                                            <img src="assets/images/users/user-5.jpg" className="avatar-md rounded-circle" alt="User Avatar" />
+                                            <img src="/src/assets/images/users/user-5.jpg" className="avatar-md rounded-circle" alt="User Avatar" />
                                             <div className="ms-2 overflow-hidden">
                                                 <h5 className="fs-sm mb-0 text-truncate">Laura Chen</h5>
                                                 <p className="text-muted mb-0 text-truncate">laura.chen@designteam.co</p>

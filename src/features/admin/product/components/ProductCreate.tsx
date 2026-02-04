@@ -24,7 +24,7 @@ export const ProductCreate = () => {
     } = useForm<SavedProduct>();
     const pubIdCate = () => {
         apiCategory.getAll().then(i => {
-            const data = i.data.data ?? [];
+            const data = i.data ?? [];
             setCategories(data);
         });
     }
@@ -33,7 +33,7 @@ export const ProductCreate = () => {
             if (!publicId) return;
 
             const res = await apiProduct.findById(publicId);
-            const data = res.data.data;
+            const data = res.data;
             if (!data) return;
             setPreview(data.image);
             setOldImage(data.image);
@@ -48,7 +48,7 @@ export const ProductCreate = () => {
                 warranty: data.warranty,
                 categoryId: data.category.publicId
             });
-            setAlert({type: "success",message: res.data.message})
+            setAlert({type: "success",message: res.message})
             setPreview(data.image)
         } catch (error) {
             console.error("Fetch product failed", error);
@@ -85,9 +85,9 @@ export const ProductCreate = () => {
             ? await apiProduct.updated(formData, publicId)
             : await apiProduct.created(formData);
 
-        if (res.data.code === 200 || res.data.code === 201) {
+        if (res.code === 200 || res.code === 201) {
             reset();
-            setAlert({type: "success",message: res.data.message});
+            setAlert({type: "success",message: res.message});
             navigate("/admin/products");
         }
     };

@@ -32,7 +32,7 @@ export const Product = () => {
 
     const fetchCategories = async () => {
         const res = await apiCategory.getAll();
-        setCategories(res.data.data ?? []);
+        setCategories(res.data ?? []);
     };
 
     const [filter, setFilter] = useState<ProductFilter>({
@@ -55,8 +55,9 @@ export const Product = () => {
     };
     const handleSearch = async (signal?: AbortSignal) => {
         try {
+            setIsLoading(true)
             const res = await apiProduct.search(filter, signal);
-            const pageData = res.data.data!;
+            const pageData = res.data!;
 
             setProducts(pageData.content);
             setCount(pageData.totalElements);
@@ -66,6 +67,8 @@ export const Product = () => {
         } catch (error: any) {
             if (error.name === "CanceledError" || error.name === "AbortError") return;
             setProducts([]);
+        } finally {
+            setIsLoading(false)
         }
     };
 
@@ -105,7 +108,6 @@ export const Product = () => {
     }, []);
     return (
         <>
-            <Loading isLoading={isloading} />
             <div className="content-page">
                 {alert && (
                     <AppAlert
@@ -313,7 +315,7 @@ export const Product = () => {
                                                     placeholder="Max price"
                                                     value={filter.maxPrice ?? ""}
                                                     onChange={e =>
-                                                        updateFilter("minPrice", e.target.value ? Number(e.target.value) : undefined)
+                                                        updateFilter("maxPrice", e.target.value ? Number(e.target.value) : undefined)
                                                     }
                                                 />
                                                 <i className="ti ti-arrow-up app-search-icon text-muted"></i>
@@ -376,7 +378,7 @@ export const Product = () => {
                                                 <th className="text-center" style={{ width: "1%" }}>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        {isloading ? <Loading isLoading={isloading} /> : <tbody>
                                             {/* <!-- Product Row --> */}
                                             {products.map((item) => (
                                                 <tr>
@@ -400,7 +402,7 @@ export const Product = () => {
                                                             </div>
                                                             <div>
                                                                 <h5 className="mb-1">
-                                                                    <a data-sort="product" href="apps-ecommerce-product-details.html" className="link-reset">{item.name}</a>
+                                                                    <Link to={`/admin/products-details/${item.publicId}`} data-sort="product" className="link-reset">{item.name}</Link>
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -450,7 +452,8 @@ export const Product = () => {
                                                     </td>
                                                 </tr>
                                             ))}
-                                        </tbody>
+                                        </tbody>}
+
                                     </table>
                                 </div>
                                 <div className="card-footer border-0 m-2">

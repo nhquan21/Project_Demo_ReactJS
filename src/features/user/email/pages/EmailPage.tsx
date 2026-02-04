@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const EmailPage = () => {
   return (
@@ -23,7 +24,7 @@ export const EmailPage = () => {
                         <div className="offcanvas-lg offcanvas-start outlook-left-menu outlook-left-menu-sm" tabIndex={-1} id="emailSidebaroffcanvas">
                             <div className="card h-100 mb-0 rounded-end-0" data-simplebar>
                                 <div className="card-body">
-                                    <a href="apps-email-compose.html" className="btn btn-danger fw-medium w-100">Compose</a>
+                                    <Link to={"/email-compose"} className="btn btn-danger fw-medium w-100">Compose</Link>
 
                                     <div className="list-group list-group-flush list-custom mt-3">
                                         <a href="apps-email-inbox.html" className="list-group-item list-group-item-action active">
@@ -32,7 +33,7 @@ export const EmailPage = () => {
                                             <span className="badge align-middle bg-danger-subtle fs-xxs text-danger float-end">21</span>
                                         </a>
 
-                                        <a href="javascript: void(0);" className="list-group-item list-group-item-action">
+                                        {/* <a href="javascript: void(0);" className="list-group-item list-group-item-action">
                                             <i className="ti ti-send-2 me-1 opacity-75 fs-lg align-middle"></i>
                                             <span className="align-middle">Sent</span>
                                         </a>
@@ -90,7 +91,7 @@ export const EmailPage = () => {
                                         <a href="javascript: void(0);" className="list-group-item list-group-item-action">
                                             <i className="ti ti-chart-donut me-1 align-middle fs-sm text-warning"></i>
                                             <span className="align-middle">Family</span>
-                                        </a>
+                                        </a> */}
                                     </div>
                                 </div>
                                 {/* <!-- end card-body--> */}
@@ -178,7 +179,7 @@ export const EmailPage = () => {
 
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-5.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-5.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Amanda Reyes</h5>
                                                     </div>
                                                 </td>
@@ -212,7 +213,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-2.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-2.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">George Thomas</h5>
                                                     </div>
                                                 </td>
@@ -276,7 +277,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-6.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-6.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Sophia Lee</h5>
                                                     </div>
                                                 </td>
@@ -373,7 +374,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-6.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-6.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">James Carter</h5>
                                                     </div>
                                                 </td>
@@ -404,7 +405,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-7.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-7.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Sophia Allen</h5>
                                                     </div>
                                                 </td>
@@ -435,7 +436,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-8.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-8.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Michael Chen</h5>
                                                     </div>
                                                 </td>
@@ -499,7 +500,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-10.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-10.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Daniel White</h5>
                                                     </div>
                                                 </td>
@@ -530,7 +531,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-3.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-3.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">James Walker</h5>
                                                     </div>
                                                 </td>
@@ -594,7 +595,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-9.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-9.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Noah Patel</h5>
                                                     </div>
                                                 </td>
@@ -625,7 +626,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-3.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-3.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Ava Thompson</h5>
                                                     </div>
                                                 </td>
@@ -656,7 +657,7 @@ export const EmailPage = () => {
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center gap-2">
-                                                        <img src="assets/images/users/user-1.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
+                                                        <img src="/src/assets/images/users/user-1.jpg" alt="user avatar" className="avatar-xs rounded-circle" />
                                                         <h5 className="fs-base mb-0 fw-medium">Liam Garcia</h5>
                                                     </div>
                                                 </td>

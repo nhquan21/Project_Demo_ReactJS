@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import type { AuthenticationResponse } from '../../features/auth/authType';
 import { clearItem, getUserStorage } from '../../utils/auth';
 
@@ -12,7 +12,7 @@ export const Navbar = () => {
             setProfile(user);
         }
         fetchUserProfile()
-    }, [])  
+    }, [])
     return (
         <div className="sidenav-menu">
             {/* <!-- Brand Logo --> */}
@@ -60,10 +60,10 @@ export const Navbar = () => {
                                 </div>
 
                                 {/* <!-- My Profile --> */}
-                                <NavLink to={"/"} className="dropdown-item">
+                                {profile?.role == "ROLE_USER" && <NavLink to={"/profile"} className="dropdown-item">
                                     <i className="ti ti-user-circle me-1 fs-lg align-middle"></i>
                                     <span className="align-middle">Profile</span>
-                                </NavLink>
+                                </NavLink>}
 
                                 {/* <!-- Logout --> */}
                                 <a className="dropdown-item text-danger fw-semibold" onClick={() => {
@@ -189,22 +189,28 @@ export const Navbar = () => {
                                 </ul>
                             </div>
                         </li>
-                        <li className="side-nav-item">
-                            <NavLink data-bs-toggle="collapse" to={"/email"} aria-expanded="false" aria-controls="email" className="side-nav-link">
+                        {profile?.role == "ROLE_USER" && <li className="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#email" aria-expanded="false" aria-controls="email" className="side-nav-link">
                                 <span className="menu-icon"><i className="ti ti-mailbox"></i></span>
                                 <span className="menu-text" data-lang="email">Email</span>
                                 <span className="badge text-bg-danger ms-auto">New</span>
-                            </NavLink>
+                            </a>
                             <div className="collapse" id="email">
                                 <ul className="sub-menu">
                                     <li className="side-nav-item">
-                                        <NavLink to="apps-email-details.html" className="side-nav-link">
+                                        <NavLink to={"/email"} className="side-nav-link">
+                                            <span className="menu-text" data-lang="apps-email-details">Inbox</span>
+                                        </NavLink>
+                                    </li>
+                                    <li className="side-nav-item">
+                                        <NavLink to={"/email-details"} className="side-nav-link">
                                             <span className="menu-text" data-lang="apps-email-details">Details</span>
                                         </NavLink>
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li>}
+
                     </ul>
                 </div>
             </div>

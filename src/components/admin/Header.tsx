@@ -243,7 +243,7 @@ export const Header = () => {
                                 <div className="d-lg-flex align-items-center gap-1 d-none">
                                     <span>
                                         <h5 className="my-0 lh-1 pro-username">{profile?.username}</h5>
-                                        <span className="fs-xs lh-1">{profile?.role}</span>
+                                        <span className="fs-xs lh-1">{profile?.email}</span>
                                     </span>
                                     <i className="ti ti-chevron-down align-middle"></i>
                                 </div>
@@ -256,7 +256,7 @@ export const Header = () => {
 
                                 {/* <!-- My Profile --> */}
 
-                                {profile?.role == 'ROLE_USER' && <NavLink to={"/home/profile"} className="dropdown-item">
+                                {profile?.role == 'ROLE_USER' && <NavLink to={"/profile"} className="dropdown-item">
                                     <i className="ti ti-user-circle me-1 fs-lg align-middle"></i>
                                     <span className="align-middle">Profile</span>
                                 </NavLink>}

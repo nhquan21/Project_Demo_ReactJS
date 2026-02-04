@@ -38,7 +38,7 @@ export const Home = () => {
                 sortDir: "asc"
             });
 
-            const pageData = res.data.data!;
+            const pageData = res.data!;
 
             setProducts(pageData.content);
             setCount(pageData.totalElements);
@@ -53,7 +53,7 @@ export const Home = () => {
 
     const fetchCategories = async () => {
         const res = await apiCategory.getAll();
-        const cats = res.data.data ?? [];
+        const cats = res.data ?? [];
         setCategories(cats);
 
         const counts = await Promise.all(
@@ -61,7 +61,7 @@ export const Home = () => {
                 apiProduct.findByCategoryPublicId(c.publicId)
                     .then(r => ({
                         id: c.publicId,
-                        count: r.data.data?.length ?? 0
+                        count: r.data?.length ?? 0
                     }))
             )
         );
@@ -74,6 +74,7 @@ export const Home = () => {
 
         setCategoryCounts(countMap);
     };
+
     const isProductNew = (createdDate: string): boolean => {
         const createdTime = new Date(createdDate).getTime();
         return Date.now() - createdTime <= 24 * 60 * 60 * 1000;

@@ -14,11 +14,11 @@ export const ProductDetails = () => {
             try {
                 if (!publicId) return;
                 const res = await apiProduct.findById(publicId);
-                setAlert({ type: "success", message: res.data.message });
-                setProduct(res.data.data ?? null);
+                setAlert({ type: "success", message: res.message });
+                setProduct(res.data ?? null);
             } catch (error) {
                 console.error("Fetch product failed", error);
-                setAlert({ type: "success", message: "Fetch product failed" });
+                setAlert({ type: "danger", message: "Fetch product failed" });
             }
         }
         fetchProduct();

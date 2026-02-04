@@ -20,13 +20,11 @@ export type OrderItemRequest = {
 }
 
 export type CartResponse = {
-  customerId:string,
   totalAmount: number,
   transactionDate: string
 }
 
 export type CartRequest = {
-  customerId: string,
   totalAmount: number,
   items:OrderItemRequest[]
 }

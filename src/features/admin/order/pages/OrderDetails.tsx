@@ -56,7 +56,7 @@ export const OrderDetails = () => {
                                                             <td>
                                                                 <div className="d-flex">
                                                                     <div className="avatar-md me-3">
-                                                                        <img src="assets/images/products/1.png" alt="Wireless Earbuds" className="img-fluid rounded" />
+                                                                        <img src="/src/assets/images/products/1.png" alt="Wireless Earbuds" className="img-fluid rounded" />
                                                                     </div>
                                                                     <div>
                                                                         <h5 className="mb-1">
@@ -76,7 +76,7 @@ export const OrderDetails = () => {
                                                             <td>
                                                                 <div className="d-flex">
                                                                     <div className="avatar-md me-3">
-                                                                        <img src="assets/images/products/2.png" alt="Smart Watch" className="img-fluid rounded" />
+                                                                        <img src="/src/assets/images/products/2.png" alt="Smart Watch" className="img-fluid rounded" />
                                                                     </div>
                                                                     <div>
                                                                         <h5 className="mb-1">
@@ -96,7 +96,7 @@ export const OrderDetails = () => {
                                                             <td>
                                                                 <div className="d-flex">
                                                                     <div className="avatar-md me-3">
-                                                                        <img src="assets/images/products/3.png" alt="Gaming Mouse" className="img-fluid rounded" />
+                                                                        <img src="/src/assets/images/products/3.png" alt="Gaming Mouse" className="img-fluid rounded" />
                                                                     </div>
                                                                     <div>
                                                                         <h5 className="mb-1">
@@ -255,12 +255,12 @@ export const OrderDetails = () => {
                                         <div className="card-body">
                                             <div className="d-flex align-items-center mb-4">
                                                 <div className="me-2">
-                                                    <img src="assets/images/users/user-5.jpg" alt="avatar" className="rounded-circle avatar-lg" />
+                                                    <img src="/src/assets/images/users/user-5.jpg" alt="avatar" className="rounded-circle avatar-lg" />
                                                 </div>
                                                 <div>
                                                     <h5 className="mb-1 d-flex align-items-center">
                                                         <a href="#!" className="link-reset">Sophia Carter</a>
-                                                        <img src="assets/images/flags/gb.svg" alt="UK" className="ms-2 rounded-circle" height="16" />
+                                                        <img src="/src/assets/images/flags/gb.svg" alt="UK" className="ms-2 rounded-circle" height="16" />
                                                     </h5>
                                                     <p className="text-muted mb-0">Since 2020</p>
                                                 </div>
@@ -402,7 +402,7 @@ export const OrderDetails = () => {
                                             {/* <!-- Card Details --> */}
                                             <div className="d-flex align-items-center">
                                                 <div className="avatar-sm me-2">
-                                                    <img src="assets/images/cards/mastercard.svg" alt="Mastercard" className="img-fluid rounded" />
+                                                    <img src="/src/assets/images/cards/mastercard.svg" alt="Mastercard" className="img-fluid rounded" />
                                                 </div>
                                                 <div>
                                                     <h5 className="fs-xs mb-1">Mastercard Ending in 4242</h5>

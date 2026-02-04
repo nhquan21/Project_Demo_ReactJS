@@ -1,7 +1,6 @@
 import type { CartRequest, CartResponse } from "../features/user/cart/cart.type";
-import type { ApiResponse } from "../types/api";
-import axiosClient from "./axiosClient";
+import { apiPost } from "./api";
 
 export const cartApi = {
-    add: (order:CartRequest) => axiosClient.post<ApiResponse<CartResponse>>('api/order/add')
+    add: (order:CartRequest) => apiPost<CartResponse,CartRequest>('api/order/add',order)
 }

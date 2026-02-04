@@ -43,12 +43,12 @@ export const OtpModal = ({ onClose }: { onClose: () => void }) => {
         otp: otp.join("")
       });
 
-      if (res.data.code !== 200 || !res.data.data) {
-        setAlert({ type: "success", message: res.data.message })
+      if (res.code !== 200 || !res.data) {
+        setAlert({ type: "success", message: res.message })
         return;
       }
 
-      const user: AuthenticationResponse = res.data.data;
+      const user: AuthenticationResponse = res.data;
 
       login(user); // context + storage
 

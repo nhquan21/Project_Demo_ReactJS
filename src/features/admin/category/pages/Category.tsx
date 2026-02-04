@@ -3,8 +3,15 @@ import { useEffect, useState } from "react";
 import type { CategoryRequest, CategoryResponse } from "../category";
 import { apiCategory } from "../../../../api/category.api";
 
+export type CategoryFilter = {
+    keyword?: string;
+    status?: string;
+    page: number;
+    size: number;
+}
 export const Category = () => {
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
+    const [searchKeyword, setSearchKeyword] = useState("");
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const {
         register,
@@ -12,6 +19,11 @@ export const Category = () => {
         reset,
         formState: { errors },
     } = useForm<CategoryRequest>();
+
+    const filteredCategories = categories.filter((item) =>
+        item.name.toLowerCase().includes(searchKeyword.trim().toLowerCase())
+    );
+
 
     const onSubmit = async (data: CategoryRequest) => {
         if (data != null) {
@@ -23,12 +35,13 @@ export const Category = () => {
                 formData.append("photo", data.photo[0]);
             }
             const res = await apiCategory.created(formData);
-            if (res.data.code === 201 || res.data.code === 200) {
+            if (res.code === 201 || res.code === 200) {
                 reset(),
                     await fetchCategories();
             }
         }
     }
+
     const onDelete = async () => {
         if (!confirm("Bạn có chắc muốn xóa các mục đã chọn?")) return;
 
@@ -38,6 +51,7 @@ export const Category = () => {
         setSelectedIds([])
         fetchCategories();
     }
+
     const delCateByPublicId = async (publicId: string) => {
         const isConfirm = window.confirm("Bạn có chắc chắn muốn xóa danh mục này không?");
 
@@ -53,14 +67,16 @@ export const Category = () => {
             alert("Xóa danh mục thất bại");
         }
     };
+
     const fetchCategories = async () => {
         try {
             const res = await apiCategory.getAll();
-            setCategories(res.data.data ?? []);
+            setCategories(res.data ?? []);
         } catch (error) {
             console.error(error);
         }
     };
+
     useEffect(() => {
         fetchCategories();
     }, []);
@@ -88,7 +104,14 @@ export const Category = () => {
                             <div className="card-header border-light justify-content-between">
                                 <div className="d-flex gap-2">
                                     <div className="app-search">
-                                        <input data-table-search type="search" className="form-control" placeholder="Search category..." />
+                                        <input
+                                            data-table-search
+                                            type="search"
+                                            className="form-control"
+                                            placeholder="Search category..."
+                                            value={searchKeyword}
+                                            onChange={(e) => setSearchKeyword(e.target.value)}
+                                        />
                                         <i className="ti ti-search app-search-icon text-muted"></i>
                                     </div>
                                     {selectedIds.length > 0 && (
@@ -142,7 +165,7 @@ export const Category = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {categories?.map(item => (
+                                        {filteredCategories?.map(item => (
                                             <tr>
                                                 <td className="ps-3">
                                                     <input className="form-check-input form-check-input-light fs-14 product-item-check mt-0" checked={selectedIds.includes(item.publicId)}
@@ -187,40 +210,40 @@ export const Category = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            
-                            <div className="card-footer border-0">
+
+                            {/* <div className="card-footer border-0">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <nav>
-                                <ul className="pagination pagination-boxed pagination-secondary mb-0">
-                                    <li className="page-item">
-                                        <a className="page-link" href="javascript: void(0);" aria-label="Previous">
-                                            <i className="ti ti-arrow-left align-middle fs-lg"></i>
-                                        </a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="javascript: void(0);">1</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="javascript: void(0);">2</a>
-                                    </li>
-                                    <li className="page-item active">
-                                        <a className="page-link" href="javascript: void(0);">3</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="javascript: void(0);">4</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="javascript: void(0);">5</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="javascript: void(0);" aria-label="Next">
-                                            <i className="ti ti-arrow-right align-middle fs-lg"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                                        <ul className="pagination pagination-boxed pagination-secondary mb-0">
+                                            <li className="page-item">
+                                                <a className="page-link" href="javascript: void(0);" aria-label="Previous">
+                                                    <i className="ti ti-arrow-left align-middle fs-lg"></i>
+                                                </a>
+                                            </li>
+                                            <li className="page-item">
+                                                <a className="page-link" href="javascript: void(0);">1</a>
+                                            </li>
+                                            <li className="page-item">
+                                                <a className="page-link" href="javascript: void(0);">2</a>
+                                            </li>
+                                            <li className="page-item active">
+                                                <a className="page-link" href="javascript: void(0);">3</a>
+                                            </li>
+                                            <li className="page-item">
+                                                <a className="page-link" href="javascript: void(0);">4</a>
+                                            </li>
+                                            <li className="page-item">
+                                                <a className="page-link" href="javascript: void(0);">5</a>
+                                            </li>
+                                            <li className="page-item">
+                                                <a className="page-link" href="javascript: void(0);" aria-label="Next">
+                                                    <i className="ti ti-arrow-right align-middle fs-lg"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     {/* <!-- end col --> */}

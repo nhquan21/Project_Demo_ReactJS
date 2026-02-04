@@ -7,13 +7,19 @@ export const Cart = () => {
     const dispatch = useDispatch();//Gửi hành động thay đổi dữ liệu
     const cartItems = useSelector((state: RootState) => state.cart.items); //Đồng bộ UI theo state
     const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
+    const totalQty = useSelector((state: RootState) => state.cart.totalQuantity)
+    const FREE_SHIPPING_THRESHOLD = 1000000
 
-     const totalPriceItem = (price: number, qty: number) => price * qty;
+    // % tiến độ Free Shipping
+    const percent = Math.min((totalAmount / FREE_SHIPPING_THRESHOLD) * 100, 100);
+
+    // Số tiền còn thiếu
+    const remaining = Math.max(FREE_SHIPPING_THRESHOLD - totalAmount, 0);
+
+    const totalPriceItem = (price: number, qty: number) => price * qty;
 
     return (
-        <>  {cartItems.length === 0 ? (
-            <p>Cart is empty</p>
-        ) : (
+        <>
             <div className="content-page">
                 <div className="container-fluid">
                     <div className="page-title-head d-flex align-items-center">
@@ -35,9 +41,25 @@ export const Cart = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="alert alert-info border border-info border-opacity-25">
-                                <h6 className="mb-2">Buy <span className="fw-bold text-warning">$250</span> more to get <span className="fw-semibold">Free Shipping</span></h6>
+                                {remaining > 0 ? (
+                                    <h6 className="mb-2">
+                                        Buy{" "}
+                                        <span className="fw-bold text-warning">
+                                            ${remaining.toLocaleString('vi-VN')}
+                                        </span>{" "}
+                                        more to get <span className="fw-semibold">Free Shipping</span>
+                                    </h6>
+                                ) : (
+                                    <h6 className="mb-2 text-success fw-semibold">
+                                        🎉 You’ve unlocked Free Shipping!
+                                    </h6>
+                                )}
+
                                 <div className="progress" style={{ height: "4px" }}>
-                                    <div className="progress-bar bg-warning" style={{ width: "70%" }}></div>
+                                    <div
+                                        className="progress-bar bg-warning"
+                                        style={{ width: `${percent}%` }}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -134,8 +156,8 @@ export const Cart = () => {
                                 <div className="card-body">
                                     <ul className="list-unstyled mb-3">
                                         <li className="d-flex justify-content-between mb-2">
-                                            <span className="text-muted">Subtotal (3 items):</span>
-                                            <span>$2,427.00</span>
+                                            <span className="text-muted">Subtotal ({totalQty} items):</span>
+                                            <span>${totalAmount.toLocaleString('vi-VN')}</span>
                                         </li>
                                         <li className="d-flex justify-content-between mb-2">
                                             <span className="text-muted">Saving:</span>
@@ -185,7 +207,6 @@ export const Cart = () => {
                 {/* <!-- end Footer --> */}
 
             </div>
-
-        )}</>
+        </>
     )
 }
