@@ -1,0 +1,29 @@
+{
+  "app": {
+    "name": "Hệ thống quản lý",
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi"
+  },
+  "button": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "search": "Tìm kiếm"
+  },
+  "table": {
+    "noData": "Không có dữ liệu",
+    "actions": "Thao tác"
+  },
+  "form": {
+    "required": "Trường này là bắt buộc",
+    "invalidEmail": "Email không hợp lệ"
+  },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Ngưng hoạt động"
+  },
+  "confirm": {
+    "delete": "Bạn có chắc muốn xóa không?"
+  }
+}

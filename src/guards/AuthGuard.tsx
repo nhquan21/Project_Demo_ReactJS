@@ -8,21 +8,6 @@ import { Loading } from "../components/ui/Loading";
 type AuthGuardProps = {
   roles?: string[]
 }
-export const isTokenExpired = (token: string): boolean => {
-  try {
-    const payloadBase64 = token.split(".")[1];
-    const payloadJson = atob(payloadBase64);
-    const payload = JSON.parse(payloadJson);
-
-    if (!payload.exp) return true;
-
-    const currentTime = Date.now() / 1000; // seconds
-    return payload.exp < currentTime;
-  } catch (error) {
-    return true;
-  }
-};
-
 
 export const AuthGuard = ({ roles }: AuthGuardProps) => {
 
@@ -56,6 +41,21 @@ export const AuthGuard = ({ roles }: AuthGuardProps) => {
 type Props = {
   children: ReactNode;
 }
+
+export const isTokenExpired = (token: string): boolean => {
+  try {
+    const payloadBase64 = token.split(".")[1];
+    const payloadJson = atob(payloadBase64);
+    const payload = JSON.parse(payloadJson);
+
+    if (!payload.exp) return true;
+
+    const currentTime = Date.now() / 1000; // seconds
+    return payload.exp < currentTime;
+  } catch (error) {
+    return true;
+  }
+};
 
 //Tạo AuthProvider
 export const AuthProvider = ({ children }: Props) => {

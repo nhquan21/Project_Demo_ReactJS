@@ -100,6 +100,26 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
     },
   },
+  // lấy ví dụ lifecycle chuẩn như pending/fulfilled/rejected
+  // extraReducers: builder => {
+  //   /**
+  //    * Đây là state machine tự động của RTK
+  //    * → Kiến trúc rõ ràng hơn Context
+  //    */
+  //   builder
+  //     .addCase(T.pending, state => {
+  //       state.loading = true;
+  //       state.error = null;
+  //     })
+  //     .addCase(T.fulfilled, (state, action) => {
+  //       state.loading = false;
+  //       state.data = action.payload;
+  //     })
+  //     .addCase(T.rejected, state => {
+  //       state.loading = false;
+  //       state.error = "Fetch failed";
+  //     });
+  // }
 });
 
 export const {
@@ -108,7 +128,9 @@ export const {
   increaseQty,
   decreaseQty,
   clearCart,
+  incrementQty,
+  decrementQty, 
+  updateQuantity
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
-export const { incrementQty, decrementQty, updateQuantity } = cartSlice.actions;

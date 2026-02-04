@@ -1,0 +1,29 @@
+{
+  "app": {
+    "name": "Management System",
+    "loading": "Loading...",
+    "error": "Something went wrong"
+  },
+  "button": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search"
+  },
+  "table": {
+    "noData": "No data available",
+    "actions": "Actions"
+  },
+  "form": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "confirm": {
+    "delete": "Are you sure you want to delete?"
+  }
+}

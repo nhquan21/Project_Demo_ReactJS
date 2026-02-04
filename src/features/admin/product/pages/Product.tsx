@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import type { DisplayCardProduct } from '../product';
 import type { CategoryResponse } from '../../category/category';
 import { apiCategory } from '../../../../api/category.api';
 import { apiProduct } from '../../../../api/product.api';
 import { AppAlert } from '../../../../components/ui/AppAlert';
 import { Loading } from '../../../../components/ui/Loading';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from "../../../../app/store";
+import { searchProducts, type ProductState } from '../ProductSlice';
 
 export type ProductFilter = {
     keyword?: string;
@@ -20,21 +22,16 @@ export type ProductFilter = {
 
 
 export const Product = () => {
-    const [products, setProducts] = useState<DisplayCardProduct[]>([]);
-    const [count, setCount] = useState<number>(0);
-    const [activePr, setActivePr] = useState<number>(0);
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
-    // const [page, setPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
     const [alert, setAlert] = useState<{ type: "success" | "danger"; message: string } | null>()
-    const [isloading, setIsLoading] = useState<boolean>(false);
-
+    const dispatch = useDispatch<AppDispatch>();//Gửi hành động thay đổi dữ liệu
+    const productState:ProductState = useSelector((state: RootState) => state.product);
     const fetchCategories = async () => {
         const res = await apiCategory.getAll();
         setCategories(res.data ?? []);
     };
-
+    const activePr = productState.items.filter(p => p.quantity > 0).length;
     const [filter, setFilter] = useState<ProductFilter>({
         keyword: undefined,
         categoryId: undefined,
@@ -51,25 +48,6 @@ export const Product = () => {
         await Promise.allSettled(selectedIds.map(id => apiProduct.deleted(id)));
         setAlert({ type: "success", message: "The selected items have been successfully deleted!" })
         setSelectedIds([]);
-        handleSearch();
-    };
-    const handleSearch = async (signal?: AbortSignal) => {
-        try {
-            setIsLoading(true)
-            const res = await apiProduct.search(filter, signal);
-            const pageData = res.data!;
-
-            setProducts(pageData.content);
-            setCount(pageData.totalElements);
-            setTotalPages(pageData.totalPages);
-            setActivePr(pageData.content.filter(p => p.quantity > 0).length);
-
-        } catch (error: any) {
-            if (error.name === "CanceledError" || error.name === "AbortError") return;
-            setProducts([]);
-        } finally {
-            setIsLoading(false)
-        }
     };
 
     const updateFilter = <K extends keyof ProductFilter>(
@@ -87,20 +65,20 @@ export const Product = () => {
         const controller = new AbortController();
 
         const delay = setTimeout(() => {
-            handleSearch(controller.signal);
+            dispatch(searchProducts(filter));
         }, 400);
 
         return () => {
             controller.abort();
             clearTimeout(delay);
         };
-    }, [filter]);
+    }, [filter, dispatch]);
+
 
     const delProPublicId = async (publicId: string) => {
         if (!window.confirm("Are you sure you want to delete this product?")) return;
         setAlert({ type: "success", message: "Delete is Product successfuly!" })
         await apiProduct.deleted(publicId);
-        handleSearch();
     };
 
     useEffect(() => {
@@ -146,7 +124,7 @@ export const Product = () => {
                                                 <i className="ti ti-package"></i>
                                             </span>
                                         </div>
-                                        <h3 className="mb-0"><span data-target="2,240">{count}</span></h3>
+                                        <h3 className="mb-0"><span data-target="2,240">{productState.items.length}</span></h3>
                                         <span className="badge badge-soft-success fw-medium fs-xs ms-auto">+24 New</span>
                                     </div>
                                     <p className="mb-0">
@@ -355,12 +333,12 @@ export const Product = () => {
                                                     <input
                                                         type="checkbox"
                                                         checked={
-                                                            products.length > 0 &&
-                                                            products.every(p => selectedIds.includes(p.publicId))
+                                                            productState.items.length > 0 &&
+                                                            productState.items.every(p => selectedIds.includes(p.publicId))
                                                         }
                                                         onChange={(e) => {
                                                             if (e.target.checked) {
-                                                                setSelectedIds(products.map(p => p.publicId));
+                                                                setSelectedIds(productState.items.map(p => p.publicId));
                                                             } else {
                                                                 setSelectedIds([]);
                                                             }
@@ -378,9 +356,9 @@ export const Product = () => {
                                                 <th className="text-center" style={{ width: "1%" }}>Actions</th>
                                             </tr>
                                         </thead>
-                                        {isloading ? <Loading isLoading={isloading} /> : <tbody>
+                                        {productState.loading ? <Loading isLoading={productState.loading} /> : <tbody>
                                             {/* <!-- Product Row --> */}
-                                            {products.map((item) => (
+                                            {productState.items.map((item) => (
                                                 <tr>
                                                     <td className="ps-3">
                                                         <input className="form-check-input form-check-input-light fs-14 product-item-check mt-0" checked={selectedIds.includes(item.publicId)}
@@ -473,7 +451,7 @@ export const Product = () => {
                                                 </li>
 
                                                 {/* PAGE NUMBERS */}
-                                                {[...Array(totalPages)].map((_, i) => (
+                                                {[...Array(productState.totalPages)].map((_, i) => (
                                                     <li key={i} className={`page-item ${filter.page === i ? "active" : ""}`}>
                                                         <button
                                                             className="page-link"
@@ -485,11 +463,11 @@ export const Product = () => {
                                                 ))}
 
                                                 {/* NEXT */}
-                                                <li className={`page-item ${filter.page + 1 === totalPages ? "disabled" : ""}`}>
+                                                <li className={`page-item ${filter.page + 1 === productState.totalPages ? "disabled" : ""}`}>
                                                     <button
                                                         className="page-link"
                                                         onClick={() => updateFilter("page", filter.page + 1)}
-                                                        disabled={filter.page + 1 === totalPages}
+                                                        disabled={filter.page + 1 === productState.totalPages}
                                                     >
                                                         <i className="ti ti-arrow-right"></i>
                                                     </button>

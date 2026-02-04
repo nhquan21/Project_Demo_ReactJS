@@ -1,18 +1,8 @@
-import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import type { AuthenticationResponse } from '../../features/auth/authType';
-import { clearItem, getUserStorage } from '../../utils/auth';
+import { useAuth } from '../../guards/AuthContext';
 
 export const Navbar = () => {
-    const [profile, setProfile] = useState<AuthenticationResponse | null>(null);
-
-    useEffect(() => {
-        const fetchUserProfile = () => {
-            const user = getUserStorage()
-            setProfile(user);
-        }
-        fetchUserProfile()
-    }, [])
+    const {user,logout} = useAuth();
     return (
         <div className="sidenav-menu">
             {/* <!-- Brand Logo --> */}
@@ -60,16 +50,13 @@ export const Navbar = () => {
                                 </div>
 
                                 {/* <!-- My Profile --> */}
-                                {profile?.role == "ROLE_USER" && <NavLink to={"/profile"} className="dropdown-item">
+                                {user?.role == "ROLE_USER" && <NavLink to={"/profile"} className="dropdown-item">
                                     <i className="ti ti-user-circle me-1 fs-lg align-middle"></i>
                                     <span className="align-middle">Profile</span>
                                 </NavLink>}
 
                                 {/* <!-- Logout --> */}
-                                <a className="dropdown-item text-danger fw-semibold" onClick={() => {
-                                    clearItem();
-                                    window.location.href = "/signIn";
-                                }}>
+                                <a className="dropdown-item text-danger fw-semibold" onClick={() => logout()}>
                                     <i className="ti ti-logout me-1 fs-lg align-middle"></i>
                                     <span className="align-middle">Log Out</span>
                                 </a>
@@ -90,7 +77,7 @@ export const Navbar = () => {
                             </a>
                             <div className="collapse" id="ecommerce">
                                 <ul className="sub-menu">
-                                    {profile?.role == "ROLE_ADMIN" && <li className="side-nav-item">
+                                    {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <a data-bs-toggle="collapse" href="#products" aria-expanded="false" aria-controls="products" className="side-nav-link">
                                             <span className="menu-text" data-lang="products">Products</span>
                                             <span className="menu-arrow"></span>
@@ -110,12 +97,12 @@ export const Navbar = () => {
                                             </ul>
                                         </div>
                                     </li>}
-                                    {profile?.role == "ROLE_ADMIN" && <li className="side-nav-item">
+                                    {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <NavLink to="/admin/categories" className="side-nav-link">
                                             <span className="menu-text" data-lang="apps-ecommerce-categories">Categories</span>
                                         </NavLink>
                                     </li>}
-                                    {profile?.role == "ROLE_ADMIN" && <li className="side-nav-item">
+                                    {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <a data-bs-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="orders" className="side-nav-link">
                                             <span className="menu-text" data-lang="orders">Orders</span>
                                             <span className="menu-arrow"></span>
@@ -140,22 +127,22 @@ export const Navbar = () => {
                                             </ul>
                                         </div>
                                     </li>}
-                                    {profile?.role == "ROLE_ADMIN" && <li className="side-nav-item">
+                                    {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <NavLink to={"/admin/customer"} className="side-nav-link">
                                             <span className="menu-text" data-lang="apps-ecommerce-customers">Customers</span>
                                         </NavLink>
                                     </li>}
-                                    {profile?.role == "ROLE_USER" && <li className="side-nav-item">
+                                    {user?.role == "ROLE_USER" && <li className="side-nav-item">
                                         <NavLink to={"/"} className="side-nav-link">
                                             <span className="menu-text" data-lang="apps-ecommerce-cart">Home</span>
                                         </NavLink>
                                     </li>}
-                                    {profile?.role == "ROLE_USER" && <li className="side-nav-item">
+                                    {user?.role == "ROLE_USER" && <li className="side-nav-item">
                                         <NavLink to={"/cart"} className="side-nav-link">
                                             <span className="menu-text" data-lang="apps-ecommerce-cart">Cart</span>
                                         </NavLink>
                                     </li>}
-                                    {profile?.role == "ROLE_USER" && <li className="side-nav-item">
+                                    {user?.role == "ROLE_USER" && <li className="side-nav-item">
                                         <NavLink to={"/checkout"} className="side-nav-link">
                                             <span className="menu-text" data-lang="apps-ecommerce-checkout">Checkout</span>
                                         </NavLink>
@@ -189,7 +176,7 @@ export const Navbar = () => {
                                 </ul>
                             </div>
                         </li>
-                        {profile?.role == "ROLE_USER" && <li className="side-nav-item">
+                        {user?.role == "ROLE_USER" && <li className="side-nav-item">
                             <a data-bs-toggle="collapse" href="#email" aria-expanded="false" aria-controls="email" className="side-nav-link">
                                 <span className="menu-icon"><i className="ti ti-mailbox"></i></span>
                                 <span className="menu-text" data-lang="email">Email</span>

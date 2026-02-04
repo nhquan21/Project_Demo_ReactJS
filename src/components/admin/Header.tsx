@@ -1,19 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { clearItem, getUserStorage } from "../../utils/auth"
-import { useEffect, useState } from "react";
-import type { AuthenticationResponse } from "../../features/auth/authType";
+import { useAuth } from "../../guards/AuthContext";
 
 
 export const Header = () => {
-    const [profile, setProfile] = useState<AuthenticationResponse | null>(null);
-
-    useEffect(() => {
-        const fetchUserProfile = () => {
-            const user = getUserStorage()
-            setProfile(user);
-        }
-        fetchUserProfile()
-    }, [])
+    const { logout,user } = useAuth();
     return (
         <header className="app-topbar">
             <div className="container-fluid topbar-menu">
@@ -242,8 +232,8 @@ export const Header = () => {
                                 <img src="/src/assets/images/users/user-1.jpg" width="32" className="rounded-circle me-lg-2 d-flex" alt="user-image" />
                                 <div className="d-lg-flex align-items-center gap-1 d-none">
                                     <span>
-                                        <h5 className="my-0 lh-1 pro-username">{profile?.username}</h5>
-                                        <span className="fs-xs lh-1">{profile?.email}</span>
+                                        <h5 className="my-0 lh-1 pro-username">{user?.username}</h5>
+                                        <span className="fs-xs lh-1">{user?.email}</span>
                                     </span>
                                     <i className="ti ti-chevron-down align-middle"></i>
                                 </div>
@@ -256,7 +246,7 @@ export const Header = () => {
 
                                 {/* <!-- My Profile --> */}
 
-                                {profile?.role == 'ROLE_USER' && <NavLink to={"/profile"} className="dropdown-item">
+                                {user?.role == 'ROLE_USER' && <NavLink to={"/profile"} className="dropdown-item">
                                     <i className="ti ti-user-circle me-1 fs-lg align-middle"></i>
                                     <span className="align-middle">Profile</span>
                                 </NavLink>}
@@ -266,7 +256,7 @@ export const Header = () => {
                                 {/* <!-- Logout --> */}
                                 <a href="javascript:void(0);" className="dropdown-item fw-semibold">
                                     <i className="ti ti-logout me-1 fs-lg align-middle"></i>
-                                    <span className="align-middle" onClick={() => { clearItem(); }}
+                                    <span className="align-middle" onClick={() => logout()}
                                     >Log Out</span>
                                 </a>
                             </div>

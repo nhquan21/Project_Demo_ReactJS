@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reducer from "../features/auth/authSlice";
 import cartReducer from "../features/user/cart/cartSlice"; 
+import productReducer from "../features/admin/product/ProductSlice"; 
 import { saveCart } from "../utils/cartStorage";
 
 //Tạo Redux store
@@ -8,6 +9,7 @@ export const store = configureStore({
   reducer: {
     auth: reducer,
     cart: cartReducer,
+    product: productReducer,
   }
 })
 
