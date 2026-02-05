@@ -1,8 +1,20 @@
 {
+  "language": {
+    "english": "English",
+    "vietnamese": "Vietnamese"
+  },
   "app": {
     "name": "Management System",
     "loading": "Loading...",
-    "error": "Something went wrong"
+    "error": "Something went wrong",
+    "product":"Product",
+    "category":"Category",
+    "order":"Order",
+    "customer": "Customer",
+    "home":"Home",
+    "cart":"Cart",
+    "checkout": "Checkout",
+    "price":"Price"
   },
   "button": {
     "save": "Save",
@@ -25,5 +37,33 @@
   },
   "confirm": {
     "delete": "Are you sure you want to delete?"
+  },
+  "product": {
+    "search": "Search product name...",
+    "all":"All",
+    "minPrice":"Min price",
+    "maxPrice":"Max Price",
+    "add":"Add Product",
+    "name": "Name",
+    "price": "Price",
+    "quantity": "Quantity",
+    "productType": "ProductType",
+    "warranty": "Warranty",
+    "power": "Power",
+    "size": "Ram",
+    "image": "Image",
+    "material": "Material",
+    "category": "Category",
+    "chooseSub": "Choose Sub Category",
+    "chooseSize": "Choose Size",
+    "productInfo": "Product Information",
+    "productplease": "To add a new product, please provide the necessary details in the fields below."
+  },
+  "category": {
+    "name": "Category Name",
+    "status": "Status",
+    "add": "Add Category",
+    "earnings": "Earnings",
+    "search": "Search category name..."
   }
 }

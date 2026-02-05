@@ -1,9 +1,32 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../guards/AuthContext";
+import { useAppDispatch } from "../../app/hooks";
+import i18n from "../../i18n/i18n";
+import { setLanguage } from "../../i18n/languageSlice";
+import { useTranslation } from "react-i18next";
+import type { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
 
+export type Language = "vi" | "en";
 
 export const Header = () => {
-    const { logout,user } = useAuth();
+  const { logout, user } = useAuth();
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation("common");
+
+  const lang = useSelector((state: RootState) => state.language.language);
+
+  const flagMap: Record<Language, string> = {
+    vi: "/src/assets/images/flags/vn.png",
+    en: "/src/assets/images/flags/us.svg"
+  };
+
+  const changeLang = (l: Language) => {
+    dispatch(setLanguage(l));
+    i18n.changeLanguage(l);
+  };
+
+
     return (
         <header className="app-topbar">
             <div className="container-fluid topbar-menu">
@@ -188,37 +211,17 @@ export const Header = () => {
                     <div id="language-selector-rounded" className="topbar-item">
                         <div className="dropdown">
                             <button className="topbar-link fw-bold" data-bs-toggle="dropdown" type="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="/src/assets/images/flags/us.svg" alt="user-image" className="rounded-circle me-2" height="18" id="selected-language-image" />
-                                <span id="selected-language-code">EN</span>
+                                <img src={flagMap[lang]} alt="user-image" className="rounded-circle me-2" height="18" id="selected-language-image" />
+                                <span id="selected-language-code">{lang.toUpperCase()}</span>
                             </button>
                             <div className="dropdown-menu dropdown-menu-end">
-                                <a href="javascript:void(0);" className="dropdown-item" data-translator-lang="en" title="English">
+                                <a href="javascript:void(0);" onClick={() => changeLang("en")} className="dropdown-item" data-translator-lang="en" title="English">
                                     <img src="/src/assets/images/flags/us.svg" alt="English" className="me-1 rounded-circle" height="18" data-translator-image="" />
-                                    <span className="align-middle">English</span>
+                                    <span className="align-middle">{t("language.english")}</span>
                                 </a>
-                                <a href="javascript:void(0);" className="dropdown-item" data-translator-lang="de" title="German">
-                                    <img src="/src/assets/images/flags/de.svg" alt="German" className="me-1 rounded-circle" height="18" data-translator-image="" />
-                                    <span className="align-middle">Deutsch</span>
-                                </a>
-                                <a href="javascript:void(0);" className="dropdown-item" data-translator-lang="it" title="Italian">
-                                    <img src="/src/assets/images/flags/it.svg" alt="Italian" className="me-1 rounded-circle" height="18" data-translator-image="" />
-                                    <span className="align-middle">Italiano</span>
-                                </a>
-                                <a href="javascript:void(0);" className="dropdown-item" data-translator-lang="es" title="Spanish">
-                                    <img src="/src/assets/images/flags/es.svg" alt="Spanish" className="me-1 rounded-circle" height="18" data-translator-image="" />
-                                    <span className="align-middle">Español</span>
-                                </a>
-                                <a href="javascript:void(0);" className="dropdown-item" data-translator-lang="ru" title="Russian">
-                                    <img src="/src/assets/images/flags/ru.svg" alt="Russian" className="me-1 rounded-circle" height="18" data-translator-image="" />
-                                    <span className="align-middle">Русский</span>
-                                </a>
-                                <a href="javascript:void(0);" className="dropdown-item" data-translator-lang="hi" title="Hindi">
-                                    <img src="/src/assets/images/flags/in.svg" alt="Hindi" className="me-1 rounded-circle" height="18" data-translator-image="" />
-                                    <span className="align-middle">हिन्दी</span>
-                                </a>
-                                <a href="javascript:void(0);" className="dropdown-item" data-translator-lang="ar" title="Arabic">
-                                    <img src="/src/assets/images/flags/sa.svg" alt="Arabic" className="me-1 rounded-circle" height="18" data-translator-image="" />
-                                    <span className="align-middle">عربي</span>
+                                <a href="javascript:void(0);" onClick={() => changeLang("vi")} className="dropdown-item" data-translator-lang="en" title="Vietnamese">
+                                    <img src="/src/assets/images/flags/vn.png" alt="Vietnamese" className="me-1 rounded-circle" height="18" data-translator-image="" />
+                                    <span className="align-middle">{t("language.vietnamese")}</span>
                                 </a>
                             </div>
                             {/* <!-- end dropdown-menu--> */}

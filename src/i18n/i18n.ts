@@ -3,16 +3,14 @@ import { initReactI18next } from "react-i18next";
 import { resources } from "./translations";
 
 i18n
-    .use(initReactI18next)
-    .init({
-        resources,
-        lng: localStorage.getItem("lang") || "vi",
-        fallbackLng: "en",
-        defaultNS: "common",
-        ns: ["common"],
-        interpolation: {
-            escapeValue: false
-        }
-    });
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: localStorage.getItem("lang") || "vi",
+    fallbackLng: "en",
+    defaultNS: "common",
+    ns: ["common"],
+    interpolation: { escapeValue: false }
+  });
 
-export default i18n
+export default i18n;

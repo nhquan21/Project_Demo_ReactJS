@@ -6,6 +6,9 @@ import { SizeType, type SavedProduct } from "../product";
 import { apiCategory } from "../../../../api/category.api";
 import { apiProduct } from "../../../../api/product.api";
 import { AppAlert } from "../../../../components/ui/AppAlert";
+import { useAppDispatch } from "../../../../app/hooks";
+import { createProduct, editProduct } from "../ProductSlice";
+import { useTranslation } from "react-i18next";
 
 
 export const ProductCreate = () => {
@@ -16,6 +19,8 @@ export const ProductCreate = () => {
     const [oldImage, setOldImage] = useState<string | null>(null);
     const [alert, setAlert] = useState<{ type: "success"| "danger"; message: string } | null>(null);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch()
+    const { t } = useTranslation("common");
     const {
         register,
         handleSubmit,
@@ -82,8 +87,8 @@ export const ProductCreate = () => {
         }
 
         const res = publicId
-            ? await apiProduct.updated(formData, publicId)
-            : await apiProduct.created(formData);
+            ? await dispatch(editProduct({ data: formData, publicId })).unwrap()
+            : await  dispatch(createProduct(formData)).unwrap();
 
         if (res.code === 200 || res.code === 201) {
             reset();
@@ -112,7 +117,7 @@ export const ProductCreate = () => {
                 <div className="container-fluid">
                     <div className="page-title-head d-flex align-items-center">
                         <div className="flex-grow-1">
-                            <h4 className="page-main-title m-0">Add Product</h4>
+                            <h4 className="page-main-title m-0">{t("product.add")}</h4>
                         </div>
 
                         <div className="text-end">
@@ -132,8 +137,8 @@ export const ProductCreate = () => {
                                 <div className="col-xxl-8">
                                     <div className="card">
                                         <div className="card-header d-block p-3">
-                                            <h4 className="card-title mb-1">Product Information</h4>
-                                            <p className="text-muted mb-0">To add a new product, please provide the necessary details in the fields below.</p>
+                                            <h4 className="card-title mb-1">{t("product.productInfo")}</h4>
+                                            <p className="text-muted mb-0">{t("product.productplease")}</p>
                                         </div>
                                         {/* <!-- end card-header --> */}
 
@@ -141,7 +146,7 @@ export const ProductCreate = () => {
                                             <div className="row">
                                                 <div className="col-12">
                                                     <div className="mb-3">
-                                                        <label className="form-label">Product Name <span className="text-danger">*</span></label>
+                                                        <label className="form-label">{t("product.name")} <span className="text-danger">*</span></label>
                                                         <input type="text" className="form-control" id="productName" placeholder="Enter product name"
                                                             {...register("name", { required: "Name bat buoc phai nhap" })}
                                                         />
@@ -155,7 +160,7 @@ export const ProductCreate = () => {
 
                                                 <div className="col-lg-6">
                                                     <div className="mb-3">
-                                                        <label className="form-label">Quantity <span className="text-danger">*</span></label>
+                                                        <label className="form-label">{t("product.quantity")} <span className="text-danger">*</span></label>
                                                         <input type="text" className="form-control" id="skuId" placeholder="0"
                                                             {...register("quantity", { required: "Quantity bat buoc phai nhap" })}
                                                         />
@@ -168,7 +173,7 @@ export const ProductCreate = () => {
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <div className="mb-3">
-                                                        <label className="form-label">Warranty<span className="text-danger">*</span></label>
+                                                        <label className="form-label">{t("product.warranty")}<span className="text-danger">*</span></label>
                                                         <input type="number" className="form-control" id="stockNumber" placeholder="0"
                                                             {...register("warranty", { required: "Quantity bat buoc phai nhap" })}
                                                         />
@@ -187,7 +192,7 @@ export const ProductCreate = () => {
 
                                     <div className="card">
                                         <div className="card-header d-block p-3">
-                                            <h4 className="card-title mb-1">Product Image</h4>
+                                            <h4 className="card-title mb-1">{t("product.image")}</h4>
                                             <p className="text-muted mb-0">To upload a product image, please use the option below to select and upload the relevant file.</p>
                                         </div>
                                         {/* <!-- end card-header --> */}
@@ -257,7 +262,7 @@ export const ProductCreate = () => {
                                         {/* <!-- end card-header --> */}
                                         <div className="card-body">
                                             <div className="mb-3">
-                                                <label className="form-label">Price <span className="text-danger">*</span></label>
+                                                <label className="form-label">{t("product.price")} <span className="text-danger">*</span></label>
                                                 <div className="app-search">
                                                     <input type="number" className="form-control" id="basePrice" placeholder="0"
                                                         {...register("price", { required: "Name bat buoc phai nhap" })}
@@ -272,10 +277,10 @@ export const ProductCreate = () => {
                                             </div>
 
                                             <div className="mb-3">
-                                                <label className="form-label">Size<span className="text-muted">(Optional)</span></label>
+                                                <label className="form-label">{t("product.size")}<span className="text-muted">(Optional)</span></label>
                                                 <div className="app-search">
                                                     <select className="form-select form-control my-1 my-md-0" id="discount" {...register("size")}>
-                                                        <option selected>Choose Size</option>
+                                                        <option selected>{t("product.chooseSize")}</option>
                                                         {sizeValues.map(item => (
                                                             <option value={item}>{item}</option>
                                                         ))}
@@ -285,7 +290,7 @@ export const ProductCreate = () => {
                                             </div>
 
                                             <div className="mb-0">
-                                                <label className="form-label">Product Type <span className="text-muted">(Optional)</span></label>
+                                                <label className="form-label">{t("product.productType")}<span className="text-muted">(Optional)</span></label>
                                                 <div className="app-search">
                                                     <input type="text" className="form-control" id="discountValue" placeholder="Laptop"
                                                         {...register("productType", { required: "Name bat buoc phai nhap" })}
@@ -310,7 +315,7 @@ export const ProductCreate = () => {
 
                                         <div className="card-body">
                                             <div className="mb-3">
-                                                <label className="form-label">Material</label>
+                                                <label className="form-label">{t("product.material")}</label>
                                                 <div className="app-search">
                                                     <input type="text" className="form-control" id="brand" placeholder="Nhôm, nhựa"
                                                         {...register("material", { required: "Name bat buoc phai nhap" })}
@@ -326,7 +331,7 @@ export const ProductCreate = () => {
 
                                             <div className="mb-3">
                                                 <label className="form-label">
-                                                    Sub Category <span className="text-danger">*</span>
+                                                    {t("product.category")} <span className="text-danger">*</span>
                                                 </label>
 
                                                 <div className="app-search">
@@ -335,7 +340,7 @@ export const ProductCreate = () => {
                                                         id="subCategory"
                                                         {...register("categoryId", { required: "Category is required" })}
                                                     >
-                                                        <option value="">Choose Sub Category</option>
+                                                        <option value="">{t("product.chooseSub")}</option>
 
                                                         {categories.map((item) => (
                                                             <option key={item.publicId} value={item.publicId}>
@@ -349,7 +354,7 @@ export const ProductCreate = () => {
                                             </div>
 
                                             <div className="mb-0">
-                                                <label className="form-label">Power</label>
+                                                <label className="form-label">{t("product.power")}</label>
                                                 <div className="app-search">
                                                     <input type="text" className="form-control" id="tags" placeholder="0"
                                                         {...register("power", { required: "Name bat buoc phai nhap" })}

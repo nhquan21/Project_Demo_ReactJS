@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../guards/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export const Navbar = () => {
     const {user,logout} = useAuth();
+    const {t} = useTranslation("common")
     return (
         <div className="sidenav-menu">
             {/* <!-- Brand Logo --> */}
@@ -79,19 +81,19 @@ export const Navbar = () => {
                                 <ul className="sub-menu">
                                     {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <a data-bs-toggle="collapse" href="#products" aria-expanded="false" aria-controls="products" className="side-nav-link">
-                                            <span className="menu-text" data-lang="products">Products</span>
+                                            <span className="menu-text" data-lang="products">{t("app.product")}</span>
                                             <span className="menu-arrow"></span>
                                         </a>
                                         <div className="collapse" id="products">
                                             <ul className="sub-menu">
                                                 <li className="side-nav-item">
                                                     <NavLink to={"/admin/products"} className="side-nav-link">
-                                                        <span className="menu-text" data-lang="apps-ecommerce-products">Products</span>
+                                                        <span className="menu-text" data-lang="apps-ecommerce-products">{t("product.all")}</span>
                                                     </NavLink>
                                                 </li>
                                                 <li className="side-nav-item">
                                                     <NavLink to={"/admin/products-add"} className="side-nav-link">
-                                                        <span className="menu-text" data-lang="apps-ecommerce-product-add">Add Product</span>
+                                                        <span className="menu-text" data-lang="apps-ecommerce-product-add">{t("product.add")}</span>
                                                     </NavLink>
                                                 </li>
                                             </ul>
@@ -99,19 +101,19 @@ export const Navbar = () => {
                                     </li>}
                                     {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <NavLink to="/admin/categories" className="side-nav-link">
-                                            <span className="menu-text" data-lang="apps-ecommerce-categories">Categories</span>
+                                            <span className="menu-text" data-lang="apps-ecommerce-categories">{t("app.category")}</span>
                                         </NavLink>
                                     </li>}
                                     {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <a data-bs-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="orders" className="side-nav-link">
-                                            <span className="menu-text" data-lang="orders">Orders</span>
+                                            <span className="menu-text" data-lang="orders">{t("app.order")}</span>
                                             <span className="menu-arrow"></span>
                                         </a>
                                         <div className="collapse" id="orders">
                                             <ul className="sub-menu">
                                                 <li className="side-nav-item">
                                                     <NavLink to={"/admin/order"} className="side-nav-link">
-                                                        <span className="menu-text" data-lang="apps-ecommerce-orders">Orders</span>
+                                                        <span className="menu-text" data-lang="apps-ecommerce-orders">{t("app.order")}</span>
                                                     </NavLink>
                                                 </li>
                                                 <li className="side-nav-item">
@@ -129,22 +131,22 @@ export const Navbar = () => {
                                     </li>}
                                     {user?.role == "ROLE_ADMIN" && <li className="side-nav-item">
                                         <NavLink to={"/admin/customer"} className="side-nav-link">
-                                            <span className="menu-text" data-lang="apps-ecommerce-customers">Customers</span>
+                                            <span className="menu-text" data-lang="apps-ecommerce-customers">{t("app.customer")}</span>
                                         </NavLink>
                                     </li>}
                                     {user?.role == "ROLE_USER" && <li className="side-nav-item">
                                         <NavLink to={"/"} className="side-nav-link">
-                                            <span className="menu-text" data-lang="apps-ecommerce-cart">Home</span>
+                                            <span className="menu-text" data-lang="apps-ecommerce-cart">{t("app.home")}</span>
                                         </NavLink>
                                     </li>}
                                     {user?.role == "ROLE_USER" && <li className="side-nav-item">
                                         <NavLink to={"/cart"} className="side-nav-link">
-                                            <span className="menu-text" data-lang="apps-ecommerce-cart">Cart</span>
+                                            <span className="menu-text" data-lang="apps-ecommerce-cart">{t("app.cart")}</span>
                                         </NavLink>
                                     </li>}
                                     {user?.role == "ROLE_USER" && <li className="side-nav-item">
                                         <NavLink to={"/checkout"} className="side-nav-link">
-                                            <span className="menu-text" data-lang="apps-ecommerce-checkout">Checkout</span>
+                                            <span className="menu-text" data-lang="apps-ecommerce-checkout">{t("app.checkout")}</span>
                                         </NavLink>
                                     </li>}
                                 </ul>

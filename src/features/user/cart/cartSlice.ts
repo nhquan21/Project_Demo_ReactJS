@@ -76,7 +76,7 @@ const cartSlice = createSlice({
       if (item) item.quantity = quantity;
     },
 
-    incrementQty: (state, action: PayloadAction<string>) => {
+    incrementQty: (state, action: PayloadAction<string | undefined>) => {
       const item = state.items.find(i => i.publicId === action.payload);
       if (item) item.quantity += 1;
 
@@ -85,7 +85,7 @@ const cartSlice = createSlice({
       state.totalQuantity = totals.totalQuantity;
     },
 
-    decrementQty: (state, action: PayloadAction<string>) => {
+    decrementQty: (state, action: PayloadAction<string | undefined>) => {
       const item = state.items.find(i => i.publicId === action.payload);
       if (item && item.quantity > 1) item.quantity -= 1;
 

@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react";
 import type { CategoryRequest, CategoryResponse } from "../category";
 import { apiCategory } from "../../../../api/category.api";
+import { useTranslation } from "react-i18next";
 
 export type CategoryFilter = {
     keyword?: string;
@@ -13,6 +14,8 @@ export const Category = () => {
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [searchKeyword, setSearchKeyword] = useState("");
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
+    const {t} = useTranslation("common")
+
     const {
         register,
         handleSubmit,
@@ -108,7 +111,7 @@ export const Category = () => {
                                             data-table-search
                                             type="search"
                                             className="form-control"
-                                            placeholder="Search category..."
+                                            placeholder={t("category.search")}
                                             value={searchKeyword}
                                             onChange={(e) => setSearchKeyword(e.target.value)}
                                         />
@@ -156,11 +159,11 @@ export const Category = () => {
                                             <th className="ps-3" style={{ width: "1%" }}>
                                                 <input data-table-select-all className="form-check-input form-check-input-light fs-14 mt-0" type="checkbox" value="option" />
                                             </th>
-                                            <th data-table-sort="product">Category Name</th>
-                                            <th data-table-sort>Products</th>
-                                            <th data-table-sort>Orders</th>
-                                            <th data-table-sort>Earnings</th>
-                                            <th data-table-sort data-column="status">Status</th>
+                                            <th data-table-sort="product">{t("category.name")}</th>
+                                            <th data-table-sort>{t("app.product")}</th>
+                                            <th data-table-sort>{t("app.order")}</th>
+                                            <th data-table-sort>{t("category.earnings")}</th>
+                                            <th data-table-sort data-column="status">{t("category.status")}</th>
                                             <th className="text-center" style={{ width: "1%" }}>Actions</th>
                                         </tr>
                                     </thead>

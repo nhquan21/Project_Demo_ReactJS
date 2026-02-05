@@ -3,54 +3,34 @@ import type { DisplayCardProduct } from '../admin/product/product';
 import type { CategoryResponse } from '../admin/category/category';
 import { apiCategory } from '../../api/category.api';
 import { apiProduct } from '../../api/product.api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppAlert } from '../../components/ui/AppAlert';
 import { addToCart } from './cart/cartSlice';
+import type { AppDispatch, RootState } from '../../app/store';
+import { searchProducts, type ProductState } from '../admin/product/ProductSlice';
+import { Loading } from '../../components/ui/Loading';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-
+export type ProductFilter = {
+    keyword?: string;
+    categoryId?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    page: number;
+    size: number;
+    sortField: string;
+    sortDir: "asc" | "desc";
+};
 export const Home = () => {
-    const [products, setProducts] = useState<DisplayCardProduct[]>([]);
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
     const ALL_CATEGORY = "ALL";
     const [selectedCategory, setSelectedCategory] = useState<string>(ALL_CATEGORY);
-    const [count, setCount] = useState<number>(0);
-    const [activePr, setActivePr] = useState<number>(0);
-    const [keyword, setKeyword] = useState('');
-    const [minPrice, setMinPrice] = useState<number | undefined>();
-    const [maxPrice, setMaxPrice] = useState<number | undefined>();
-    const [page, setPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [size, setSize] = useState(10);
-    const dispatch = useDispatch();
     const [alert, setAlert] = useState<{ type: "success" | "danger"; message: string } | null>(null);
-
-    const handleSearch = async () => {
-        try {
-            const res = await apiProduct.search({
-                keyword: keyword || undefined,
-                categoryId: selectedCategory === ALL_CATEGORY ? undefined : selectedCategory,
-                minPrice: minPrice || undefined,
-                maxPrice: maxPrice || undefined,
-                page,
-                size,
-                sortField: "price",
-                sortDir: "asc"
-            });
-
-            const pageData = res.data!;
-
-            setProducts(pageData.content);
-            setCount(pageData.totalElements);
-            setTotalPages(pageData.totalPages);
-            setActivePr(pageData.content.filter(p => p.quantity > 0).length);
-
-        } catch (error) {
-            console.error(error);
-            setProducts([]);
-        }
-    };
-
+    const dispatch = useDispatch<AppDispatch>();
+    const productState: ProductState = useSelector((state: RootState) => state.product);
+    const {t} = useTranslation("common");
     const fetchCategories = async () => {
         const res = await apiCategory.getAll();
         const cats = res.data ?? [];
@@ -74,7 +54,16 @@ export const Home = () => {
 
         setCategoryCounts(countMap);
     };
-
+    const [filter, setFilter] = useState<ProductFilter>({
+        keyword: undefined,
+        categoryId: undefined,
+        minPrice: undefined,
+        maxPrice: undefined,
+        page: 0,
+        size: 10,
+        sortField: "price",
+        sortDir: "asc"
+    });
     const isProductNew = (createdDate: string): boolean => {
         const createdTime = new Date(createdDate).getTime();
         return Date.now() - createdTime <= 24 * 60 * 60 * 1000;
@@ -93,24 +82,33 @@ export const Home = () => {
         });
     };
 
+    const updateFilter = <K extends keyof ProductFilter>(
+        key: K,
+        value: ProductFilter[K]
+    ) => {
+        setFilter(prev => ({
+            ...prev,
+            [key]: value,
+            page: key === "page" ? value as number : 0
+        }));
+    };
+
     useEffect(() => {
         fetchCategories();
     }, []);
 
     useEffect(() => {
-        setPage(0);
-    }, [selectedCategory, minPrice, maxPrice, size, keyword]);
+        const controller = new AbortController();
 
-    useEffect(() => {
-        handleSearch();
-    }, [page, selectedCategory, minPrice, maxPrice, size]);
-
-    useEffect(() => {
-        const t = setTimeout(() => {
-            handleSearch();
+        const delay = setTimeout(() => {
+            dispatch(searchProducts(filter));
         }, 400);
-        return () => clearTimeout(t);
-    }, [keyword]);
+
+        return () => {
+            controller.abort();
+            clearTimeout(delay);
+        };
+    }, [filter, dispatch]);
     return (
         <>
             {alert && (
@@ -146,11 +144,11 @@ export const Home = () => {
                                             <i className="ti ti-menu-4 fs-lg"></i>
                                         </button>
                                     </div>
-                                    <h3 className="mb-0 fs-xl flex-grow-1"><span data-target="1025">{count}</span> Products</h3>
+                                    <h3 className="mb-0 fs-xl flex-grow-1"><span data-target="1025">{productState.items.length}</span> {t("app.product")}</h3>
                                     <div>
                                         <select
-                                            value={size}
-                                            onChange={(e) => setSize(Number(e.target.value))}
+                                            value={filter.size}
+                                            onChange={e => updateFilter("size", Number(e.target.value))}
                                             className="form-select"
                                         >
                                             <option value={8}>8</option>
@@ -172,14 +170,14 @@ export const Home = () => {
                                     <div className="card-body p-0">
                                         <div className="p-3 border-bottom border-dashed">
                                             <div className="app-search">
-                                                <input type="search" value={keyword} className="form-control" placeholder="Search product name..." onChange={(e) => setKeyword(e.target.value)} />
+                                                <input type="search" value={filter.keyword ?? ""} className="form-control" placeholder={t("product.search")} onChange={e => updateFilter("keyword", e.target.value || undefined)} />
                                                 <i className="ti ti-search app-search-icon text-muted"></i>
                                             </div>
                                         </div>
 
                                         <div className="p-3 border-bottom border-dashed">
                                             <div className="d-flex mb-2 justify-content-between align-items-center">
-                                                <h5 className="mb-0">Category:</h5>
+                                                <h5 className="mb-0">{t("app.category")}:</h5>
                                                 <a href="javascript: void(0);" className="btn btn-link btn-sm px-0 fw-semibold">View All</a>
                                             </div>
 
@@ -190,7 +188,10 @@ export const Home = () => {
                                                         name="category"
                                                         className="form-check-input"
                                                         checked={selectedCategory === ALL_CATEGORY}
-                                                        onChange={() => setSelectedCategory(ALL_CATEGORY)}
+                                                        onChange={() => {
+                                                            setSelectedCategory(ALL_CATEGORY);
+                                                            updateFilter("categoryId", undefined);
+                                                        }}
                                                     />
                                                     <label className="form-check-label mb-0">{ALL_CATEGORY}</label>
                                                 </div>
@@ -205,7 +206,11 @@ export const Home = () => {
                                                                 name="category"
                                                                 className="form-check-input"
                                                                 checked={selectedCategory === item.publicId}
-                                                                onChange={() => setSelectedCategory(item.publicId)}
+                                                                value={item.publicId}
+                                                                onChange={e => {
+                                                                    setSelectedCategory(e.target.value)
+                                                                    updateFilter("categoryId", e.target.value === "All" ? undefined : e.target.value)
+                                                                }}
                                                             />
                                                             <label className="form-check-label mb-0">{item.name}</label>
                                                         </div>
@@ -224,7 +229,7 @@ export const Home = () => {
                                         {/* <!-- end brands--> */}
 
                                         <div className="p-3 border-bottom border-dashed">
-                                            <h5 className="mb-3">Price:</h5>
+                                            <h5 className="mb-3">{t("app.price")}:</h5>
 
                                             <div id="price-filter" data-slider-size="sm"></div>
 
@@ -233,9 +238,11 @@ export const Home = () => {
                                                     <input
                                                         type="number"
                                                         className="form-control"
-                                                        placeholder="Min price"
-                                                        value={minPrice ?? ""}
-                                                        onChange={(e) => setMinPrice(e.target.value ? Number(e.target.value) : undefined)}
+                                                        placeholder={t("product.minPrice")}
+                                                        value={filter.minPrice ?? ""}
+                                                        onChange={e =>
+                                                            updateFilter("minPrice", e.target.value ? Number(e.target.value) : undefined)
+                                                        }
                                                     />
                                                     <i className="ti ti-arrow-down app-search-icon text-muted"></i>
                                                 </div>
@@ -244,9 +251,10 @@ export const Home = () => {
                                                     <input
                                                         type="number"
                                                         className="form-control"
-                                                        placeholder="Max price"
-                                                        value={maxPrice ?? ""}
-                                                        onChange={(e) => setMaxPrice(e.target.value ? Number(e.target.value) : undefined)}
+                                                        placeholder={t("product.maxPrice")}
+                                                        value={filter.maxPrice ?? ""}
+                                                        onChange={e =>
+                                                            updateFilter("maxPrice", e.target.value ? Number(e.target.value) : undefined)}
                                                     />
                                                     <i className="ti ti-arrow-up app-search-icon text-muted"></i>
                                                 </div>
@@ -257,74 +265,91 @@ export const Home = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            productState.loading ? (<Loading isLoading={productState.loading} />) :
+                                (<div className="col-xl-9">
+                                    <div className="row row-cols-xxl-4 row-cols-lg-3 row-cols-sm-2 row-col-1 g-2">
+                                        {productState.items.map(e => (
+                                            <div className="col">
+                                                <article className="card h-100 mb-2">
+                                                    {/* <!-- Badge --> */}
+                                                    <div className="badge text-bg-success badge-label fs-base rounded position-absolute top-0 start-0 m-3">{isProductNew(e.createdDate)}</div>
 
-                        <div className="col-xl-9">
-                            <div className="row row-cols-xxl-4 row-cols-lg-3 row-cols-sm-2 row-col-1 g-2">
-                                {products.map(e => (
-                                    <div className="col">
-                                        <article className="card h-100 mb-2">
-                                            {/* <!-- Badge --> */}
-                                            <div className="badge text-bg-success badge-label fs-base rounded position-absolute top-0 start-0 m-3">{isProductNew(e.createdDate)}</div>
+                                                    {/* <!-- Card Body --> */}
+                                                    <Link to={`/products-details/${e.publicId}`} className="card-body pb-0">
+                                                        <div className="p-3">
+                                                            <img src={e.image} alt="modern-sofa" className="img-fluid" />
+                                                        </div>
+                                                        {/* <!-- Title --> */}
+                                                        <h6 className="card-title fs-sm lh-base mb-2">
+                                                            <div  className="link-reset">{e.name}</div>
+                                                        </h6>
 
-                                            {/* <!-- Card Body --> */}
-                                            <div className="card-body pb-0">
-                                                <div className="p-3">
-                                                    <img src={e.image} alt="modern-sofa" className="img-fluid" />
-                                                </div>
-                                                {/* <!-- Title --> */}
-                                                <h6 className="card-title fs-sm lh-base mb-2">
-                                                    <a href="apps-ecommerce-product-details.html" className="link-reset">Modern Minimalist Fabric Sofa Single Seater</a>
-                                                </h6>
+                                                        <div>
+                                                            <span className="ms-1">
+                                                                <div className="link-reset fw-semibold">{e.size}</div>
+                                                            </span>
+                                                        </div>
+                                                    </Link>
 
-                                                <div>
-                                                    <span className="ms-1">
-                                                        <a href="apps-ecommerce-reviews.html" className="link-reset fw-semibold">{e.size}</a>
-                                                    </span>
-                                                </div>
+                                                    {/* <!-- Card footer --> */}
+                                                    <div className="card-footer bg-transparent d-flex justify-content-between">
+                                                        <div className="d-flex justify-content-start align-items-center gap-2">
+                                                            <h5 className="text-success d-flex align-items-center gap-2 mb-0">
+                                                                ${e.price?.toLocaleString('vi-VN')}
+                                                            </h5>
+                                                        </div>
+                                                        <a className="btn btn-sm btn-icon btn-primary" onClick={() => onSaveCart(e)}>
+                                                            <i className="ti ti-basket fs-lg"></i>
+                                                        </a>
+                                                    </div>
+                                                </article>
                                             </div>
-
-                                            {/* <!-- Card footer --> */}
-                                            <div className="card-footer bg-transparent d-flex justify-content-between">
-                                                <div className="d-flex justify-content-start align-items-center gap-2">
-                                                    <h5 className="text-success d-flex align-items-center gap-2 mb-0">
-                                                        ${e.price?.toLocaleString('vi-VN')}
-                                                    </h5>
-                                                </div>
-                                                <a className="btn btn-sm btn-icon btn-primary" onClick={() => onSaveCart(e)}>
-                                                    <i className="ti ti-basket fs-lg"></i>
-                                                </a>
-                                            </div>
-                                        </article>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                            {/* <!-- end row--> */}
-                        </div>
+                                    {/* <!-- end row--> */}
+                                </div>)
+                        }
                         <div className="card-footer border-0 m-2">
                             <div className="d-flex justify-content-center align-items-center">
                                 <nav>
                                     <ul className="pagination pagination-boxed pagination-secondary mb-0">
-                                        <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
-                                            <button className="page-link" onClick={() => setPage(p => p - 1)}>
+
+                                        {/* PREVIOUS */}
+                                        <li className={`page-item ${filter.page === 0 ? "disabled" : ""}`}>
+                                            <button
+                                                className="page-link"
+                                                onClick={() => updateFilter("page", filter.page - 1)}
+                                                disabled={filter.page === 0}
+                                            >
                                                 <i className="ti ti-arrow-left"></i>
                                             </button>
                                         </li>
 
-                                        {[...Array(totalPages)].map((_, i) => (
-                                            <li key={i} className={`page-item ${page === i ? "active" : ""}`}>
-                                                <button className="page-link" onClick={() => setPage(i)}>
+                                        {/* PAGE NUMBERS */}
+                                        {[...Array(productState.totalPages)].map((_, i) => (
+                                            <li key={i} className={`page-item ${filter.page === i ? "active" : ""}`}>
+                                                <button
+                                                    className="page-link"
+                                                    onClick={() => updateFilter("page", i)}
+                                                >
                                                     {i + 1}
                                                 </button>
                                             </li>
                                         ))}
 
-                                        <li className={`page-item ${page + 1 === totalPages ? "disabled" : ""}`}>
-                                            <button className="page-link" onClick={() => setPage(p => p + 1)}>
+                                        {/* NEXT */}
+                                        <li className={`page-item ${filter.page + 1 === productState.totalPages ? "disabled" : ""}`}>
+                                            <button
+                                                className="page-link"
+                                                onClick={() => updateFilter("page", filter.page + 1)}
+                                                disabled={filter.page + 1 === productState.totalPages}
+                                            >
                                                 <i className="ti ti-arrow-right"></i>
                                             </button>
                                         </li>
-                                    </ul>
 
+                                    </ul>
                                 </nav>
                             </div>
                         </div>

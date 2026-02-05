@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import type { CategoryResponse } from '../../category/category';
 import { apiCategory } from '../../../../api/category.api';
-import { apiProduct } from '../../../../api/product.api';
 import { AppAlert } from '../../../../components/ui/AppAlert';
 import { Loading } from '../../../../components/ui/Loading';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from "../../../../app/store";
-import { searchProducts, type ProductState } from '../ProductSlice';
+
+import { deleteProduct, searchProducts, type ProductState } from '../ProductSlice';
+import { useAppDispatch } from '../../../../app/hooks';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../../app/store';
+import { useTranslation } from 'react-i18next';
 
 export type ProductFilter = {
     keyword?: string;
@@ -25,8 +27,9 @@ export const Product = () => {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [alert, setAlert] = useState<{ type: "success" | "danger"; message: string } | null>()
-    const dispatch = useDispatch<AppDispatch>();//Gửi hành động thay đổi dữ liệu
+    const dispatch = useAppDispatch();//Gửi hành động thay đổi dữ liệu
     const productState:ProductState = useSelector((state: RootState) => state.product);
+    const { t } = useTranslation("common");
     const fetchCategories = async () => {
         const res = await apiCategory.getAll();
         setCategories(res.data ?? []);
@@ -45,7 +48,7 @@ export const Product = () => {
 
     const onDelete = async () => {
         if (!window.confirm("Are you sure you want to delete the selected items?")) return;
-        await Promise.allSettled(selectedIds.map(id => apiProduct.deleted(id)));
+        await Promise.allSettled(selectedIds.map(id => dispatch(deleteProduct(id))));
         setAlert({ type: "success", message: "The selected items have been successfully deleted!" })
         setSelectedIds([]);
     };
@@ -78,7 +81,7 @@ export const Product = () => {
     const delProPublicId = async (publicId: string) => {
         if (!window.confirm("Are you sure you want to delete this product?")) return;
         setAlert({ type: "success", message: "Delete is Product successfuly!" })
-        await apiProduct.deleted(publicId);
+        await dispatch(deleteProduct(publicId))
     };
 
     useEffect(() => {
@@ -229,7 +232,7 @@ export const Product = () => {
                                             <input
                                                 type="search"
                                                 className="form-control"
-                                                placeholder="Search product name..."
+                                                placeholder={t("product.search")}
                                                 value={filter.keyword ?? ""}
                                                 onChange={e => updateFilter("keyword", e.target.value || undefined)}
                                             />
@@ -260,7 +263,7 @@ export const Product = () => {
                                                     updateFilter("categoryId", e.target.value === "All" ? undefined : e.target.value)
                                                 }
                                             >
-                                                <option value="All">All</option>
+                                                <option value="All">{t("product.all")}</option>
                                                 {categories.map((item) => (
                                                     <option value={item.publicId}>
                                                         {item.name}
@@ -277,7 +280,7 @@ export const Product = () => {
                                                 <input
                                                     type="number"
                                                     className="form-control"
-                                                    placeholder="Min price"
+                                                    placeholder={t("product.minPrice")}
                                                     value={filter.minPrice ?? ""}
                                                     onChange={e =>
                                                         updateFilter("minPrice", e.target.value ? Number(e.target.value) : undefined)
@@ -290,7 +293,7 @@ export const Product = () => {
                                                 <input
                                                     type="number"
                                                     className="form-control"
-                                                    placeholder="Max price"
+                                                    placeholder={t("product.maxPrice")}
                                                     value={filter.maxPrice ?? ""}
                                                     onChange={e =>
                                                         updateFilter("maxPrice", e.target.value ? Number(e.target.value) : undefined)
@@ -299,7 +302,6 @@ export const Product = () => {
                                                 <i className="ti ti-arrow-up app-search-icon text-muted"></i>
                                             </div>
                                         </div>
-
 
                                         {/* <!-- Records Per Page --> */}
                                         <div>
@@ -320,7 +322,7 @@ export const Product = () => {
                                     <div className="d-flex gap-1">
                                         <NavLink to="/admin/products-add" className="btn btn-danger ms-1">
                                             <i className="ti ti-plus fs-sm me-2"></i>
-                                            Add Product
+                                            {t("product.add")}
                                         </NavLink>
                                     </div>
                                 </div>
@@ -345,14 +347,14 @@ export const Product = () => {
                                                         }}
                                                     />
                                                 </th>
-                                                <th data-table-sort="product">Product</th>
-                                                <th>Quantity</th>
-                                                <th data-table-sort>Material</th>
-                                                <th data-table-sort data-column="price">Price</th>
+                                                <th data-table-sort="product">{t("app.product")}</th>
+                                                <th>{t("product.quantity")}</th>
+                                                <th data-table-sort>{t("product.material")}</th>
+                                                <th data-table-sort data-column="price">{t("product.price")}</th>
                                                 <th data-table-sort>Orders</th>
-                                                <th data-table-sort="rating">Sise</th>
-                                                <th data-table-sort data-column="status">Power</th>
-                                                <th data-table-sort>Warranty</th>
+                                                <th data-table-sort="rating">{t("product.size")}</th>
+                                                <th data-table-sort data-column="status">{t("product.power")}</th>
+                                                <th data-table-sort>{t("product.warranty")}</th>
                                                 <th className="text-center" style={{ width: "1%" }}>Actions</th>
                                             </tr>
                                         </thead>

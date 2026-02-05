@@ -1,8 +1,20 @@
 {
+  "language": {
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
+  },
   "app": {
     "name": "Hệ thống quản lý",
     "loading": "Đang tải...",
-    "error": "Đã xảy ra lỗi"
+    "error": "Đã xảy ra lỗi",
+    "product":"Sản phẩm",
+    "category":"Danh mục",
+    "order":"Đặt hàng",
+    "customer": "Người dùng",
+    "home":"Trang chủ",
+    "cart":"Giỏ hàng",
+    "checkout": "Kiểm tra",
+    "price":"Giá"
   },
   "button": {
     "save": "Lưu",
@@ -25,5 +37,33 @@
   },
   "confirm": {
     "delete": "Bạn có chắc muốn xóa không?"
+  },
+  "product": {
+    "search": "Tìm kiếm tên sản phẩm...",
+    "all":"Tất cả",
+    "minPrice":"Giá tiền thấp",
+    "maxPrice":"Giá tiền cao",
+    "add": "Thêm mới sản phẩm",
+    "name": "Tên sản phẩm",
+    "price": "Giá sản phẩm",
+    "quantity": "Số lượng tồn kho",
+    "productType": "Loại sản phẩm",
+    "warranty": "Thời gian bảo hành",
+    "power": "Công suất",
+    "size": "Ram",
+    "image": "Hình ảnh sản phẩm",
+    "material": "Chất liệu",
+    "category": "Danh mục sản phẩm",
+    "chooseSub": "Chọn danh mục phụ",
+    "chooseSize": "Chọn ram",
+    "productInfo": "Thông tin sản phẩm",
+    "productplease": "Để thêm sản phẩm mới, vui lòng cung cấp các thông tin cần thiết vào các trường bên dưới."
+  },
+  "category": {
+    "name": "Tên danh mục",
+    "status": "Trạng thái",
+    "add": "Thêm mới danh mục",
+    "earnings": "Thu Nhập",
+    "search": "Tìm kiếm tên danh mục..."
   }
 }

@@ -12,6 +12,7 @@ import { Profile } from '../components/main/Profile';
 import { authRoutes } from '../features/auth/auth.routes';
 import { Home } from '../features/user/Home';
 import { AdminRoutes } from '../features/admin/admin.routes';
+import { ProductDetails } from '../features/admin/product/pages/ProductDetails';
 
 
 export const AppRoutes = () => {
@@ -24,6 +25,7 @@ export const AppRoutes = () => {
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='products-details/:publicId' element={<ProductDetails />} />
           <Route path="checkout" element={<Checkout />} />
           {UserRoutes.map((r, i) => (
             <Route key={i} path={r.path} element={r.element} />

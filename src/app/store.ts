@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import reducer from "../features/auth/authSlice";
 import cartReducer from "../features/user/cart/cartSlice"; 
 import productReducer from "../features/admin/product/ProductSlice"; 
+import languageReducer from "../i18n/languageSlice"; 
 import { saveCart } from "../utils/cartStorage";
 
 //Tạo Redux store
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: reducer,
     cart: cartReducer,
     product: productReducer,
+    language: languageReducer
   }
 })
 

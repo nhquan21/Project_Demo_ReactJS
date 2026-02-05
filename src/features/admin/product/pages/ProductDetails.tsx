@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import type { DisplayListingProduct } from "../product";
-import { apiProduct } from "../../../../api/product.api";
 import { AppAlert } from "../../../../components/ui/AppAlert";
+import { useAppDispatch } from "../../../../app/hooks";
+import { productDetails, type ProductState } from "../ProductSlice";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../app/store";
+import { useTranslation } from "react-i18next";
+import { decrementQty, incrementQty } from "../../../user/cart/cartSlice";
 
 
 export const ProductDetails = () => {
     const { publicId } = useParams<{ publicId: string }>();
-    const [product, setProduct] = useState<DisplayListingProduct | null>(null);
     const [alert, setAlert] = useState<{ type: "success" | "danger"; message: string } | null>(null);
+    const dispatch = useAppDispatch();
+    const productState: ProductState = useSelector((state: RootState) => state.product);
+    const { t } = useTranslation("common");
+    const cartItems = useSelector((state: RootState) => state.cart.items); //Đồng bộ UI theo state
+    // const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
+    // const totalQty = useSelector((state: RootState) => state.cart.totalQuantity)
+    // const totalPriceItem = (price: number, qty: number) => price * qty;
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 if (!publicId) return;
-                const res = await apiProduct.findById(publicId);
-                setAlert({ type: "success", message: res.message });
-                setProduct(res.data ?? null);
+                dispatch(productDetails(publicId));
+                setAlert({ type: "success", message: "Find Product by publicId successfuly." });
             } catch (error) {
                 console.error("Fetch product failed", error);
                 setAlert({ type: "danger", message: "Fetch product failed" });
@@ -61,7 +70,7 @@ export const ProductDetails = () => {
                                                 <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel">
                                                     <div className="carousel-inner" role="listbox">
                                                         <div className="carousel-item text-center active">
-                                                            <img src={product?.image} alt="" className="img-fluid" />
+                                                            <img src={productState.item?.image} alt="" className="img-fluid" />
                                                         </div>
                                                         <div className="carousel-item text-center">
                                                             <img src="/src/assets/images/products/single-2.png" alt="" className="img-fluid" />
@@ -75,7 +84,7 @@ export const ProductDetails = () => {
                                                     </div>
                                                     <div className="carousel-indicators m-0 mt-3 d-lg-flex d-none position-static h-100 rounded gap-2">
                                                         <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1" className="h-auto rounded bg-light-subtle border active" style={{ width: "auto !important" }}>
-                                                            <img src={product?.image} className="d-block avatar-xl" alt="indicator-img" />
+                                                            <img src={productState.item?.image} className="d-block avatar-xl" alt="indicator-img" />
                                                         </button>
                                                         <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="1" aria-label="Slide 2" className="h-auto rounded bg-light-subtle border" style={{ width: "auto !important" }}>
                                                             <img src="/src/assets/images/products/single-2.png" className="d-block avatar-xl" alt="indicator-img" />
@@ -89,17 +98,39 @@ export const ProductDetails = () => {
                                                     </div>
                                                 </div>
                                                 {/* <!-- end carousel--> */}
-
-                                                <div className="text-center my-3">
-                                                    <a href="apps-ecommerce-product-add.html" className="btn btn-light me-1">
-                                                        <i className="ti ti-pencil fs-lg me-1"></i>
-                                                        Edit
-                                                    </a>
-                                                    <a href="apps-ecommerce-product-add.html" className="btn btn-danger">
-                                                        <i className="ti ti-circle-dashed-plus fs-lg me-1"></i>
-                                                        Delisting
-                                                    </a>
+                                                {/* <div>
+                                                    <td>${productState.item?.price?.toLocaleString('vi-VN')}</td>
                                                 </div>
+                                                <div className="text-center my-3">
+                                                    <td className="text-center align-middle me-1">
+                                                        <div className="input-group" data-touchspin style={{ maxWidth: "130px" }}>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-primary floating"
+                                                                onClick={() => dispatch(decrementQty(productState.item?.publicId))}
+                                                            >
+                                                                <i className="ti ti-minus"></i>
+                                                            </button>
+
+                                                            <input
+                                                                type="number"
+                                                                className="form-control form-control-sm border-0"
+                                                                value={productState.item?.quantity}
+                                                                max={800000}
+                                                                readOnly
+                                                            />
+
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-primary floating"
+                                                                onClick={() => dispatch(incrementQty(productState.item?.publicId))}
+                                                            >
+                                                                <i className="ti ti-plus"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </td>
+                                                </div> */}
                                             </div>
                                             {/* <!-- end card-body--> */}
                                         </div>
@@ -125,43 +156,43 @@ export const ProductDetails = () => {
                                                 </div>
                                             </div> */}
                                             <div className="mt-3 mb-4">
-                                                <h4 className="fs-xl">{product?.name}</h4>
+                                                <h4 className="fs-xl">{productState.item?.name}</h4>
                                             </div>
 
                                             <div className="row mb-4">
                                                 {/* <!-- Updated product details --> */}
                                                 <div className="col-md-4 col-xl-3">
-                                                    <h6 className="mb-1 text-muted text-uppercase">Quantity:</h6>
-                                                    <p className="fw-medium mb-0">{product?.quantity}</p>
+                                                    <h6 className="mb-1 text-muted text-uppercase">{t("product.quantity")}:</h6>
+                                                    <p className="fw-medium mb-0">{productState.item?.quantity}</p>
                                                 </div>
                                                 <div className="col-md-4 col-xl-3">
-                                                    <h6 className="mb-1 text-muted text-uppercase">Material:</h6>
-                                                    <p className="fw-medium mb-0">{product?.material}</p>
+                                                    <h6 className="mb-1 text-muted text-uppercase">{t("product.material")}:</h6>
+                                                    <p className="fw-medium mb-0">{productState.item?.material}</p>
                                                 </div>
                                                 <div className="col-md-4 col-xl-3">
-                                                    <h6 className="mb-1 text-muted text-uppercase">Power:</h6>
-                                                    <p className="fw-medium mb-0">{product?.power}</p>
+                                                    <h6 className="mb-1 text-muted text-uppercase">{t("product.power")}:</h6>
+                                                    <p className="fw-medium mb-0">{productState.item?.power}</p>
                                                 </div>
                                                 <div className="col-md-4 col-xl-3">
-                                                    <h6 className="mb-1 text-muted text-uppercase">Ram:</h6>
-                                                    <p className="fw-medium mb-0">{product?.size}</p>
+                                                    <h6 className="mb-1 text-muted text-uppercase">{t("product.size")}:</h6>
+                                                    <p className="fw-medium mb-0">{productState.item?.size}</p>
                                                 </div>
                                             </div>
 
                                             <div className="row mb-4">
                                                 {/* <!-- Orders and revenue --> */}
                                                 <div className="col-md-4 col-xl-3">
-                                                    <h6 className="mb-1 text-muted text-uppercase">ProductType:</h6>
-                                                    <p className="fw-medium mb-0">{product?.productType}</p>
+                                                    <h6 className="mb-1 text-muted text-uppercase">{t("product.productType")}:</h6>
+                                                    <p className="fw-medium mb-0">{productState.item?.productType}</p>
                                                 </div>
                                                 <div className="col-md-4 col-xl-3">
-                                                    <h6 className="mb-1 text-muted text-uppercase">Warranty:</h6>
-                                                    <p className="fw-medium mb-0">{product?.warranty}</p>
+                                                    <h6 className="mb-1 text-muted text-uppercase">{t("product.warranty")}:</h6>
+                                                    <p className="fw-medium mb-0">{productState.item?.warranty}</p>
                                                 </div>
                                             </div>
 
                                             <h3 className="text-muted d-flex align-items-center gap-2 mb-4">
-                                                <span className="fw-bold text-danger">${product?.price?.toLocaleString('vi-VN')}</span>
+                                                <span className="fw-bold text-danger">${productState.item?.price?.toLocaleString('vi-VN')}</span>
                                             </h3>
 
                                             <h5 className="text-uppercase text-muted fs-xs mb-2">Product Info:</h5>
