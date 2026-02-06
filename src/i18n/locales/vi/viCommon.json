@@ -7,14 +7,34 @@
     "name": "Hệ thống quản lý",
     "loading": "Đang tải...",
     "error": "Đã xảy ra lỗi",
-    "product":"Sản phẩm",
-    "category":"Danh mục",
-    "order":"Đặt hàng",
+    "product": "Sản phẩm",
+    "category": "Danh mục",
+    "order": "Đặt hàng",
     "customer": "Người dùng",
-    "home":"Trang chủ",
-    "cart":"Giỏ hàng",
+    "home": "Trang chủ",
+    "cart": "Giỏ hàng",
     "checkout": "Kiểm tra",
-    "price":"Giá"
+    "price": "Giá",
+    "total": "Tổng tiền",
+    "orderSummary": "Tóm tắt đơn hàng",
+    "subtotal": "Tạm tính",
+    "proceedtoCheckout": "Tiến hành thanh toán",
+    "estimatedtotal": "Tổng ước tính",
+    "freeShipping": "🎉 Bạn đã được hưởng vận chuyển miễn phí!",
+    "clearCart": "Xóa giỏ hàng",
+    "shoppingCart": "Giỏ hàng",
+    "continueShopping": "Tiếp tục mua hàng",
+    "productDetail": "Chi tiết sản phẩm"
+  },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signOut": "Đăng xuất",
+    "createAccount": "Tạo tài khoản",
+    "createAnAccount": "Tạo một tài khoản",
+    "lognin": "Đăng nhập",
+    "name": "Tên tài khoản",
+    "emailAddress": "Địa chỉ email",
+    "password": "Mật khẩu"
   },
   "button": {
     "save": "Lưu",
@@ -40,9 +60,9 @@
   },
   "product": {
     "search": "Tìm kiếm tên sản phẩm...",
-    "all":"Tất cả",
-    "minPrice":"Giá tiền thấp",
-    "maxPrice":"Giá tiền cao",
+    "all": "Tất cả",
+    "minPrice": "Giá tiền thấp",
+    "maxPrice": "Giá tiền cao",
     "add": "Thêm mới sản phẩm",
     "name": "Tên sản phẩm",
     "price": "Giá sản phẩm",
@@ -65,5 +85,18 @@
     "add": "Thêm mới danh mục",
     "earnings": "Thu Nhập",
     "search": "Tìm kiếm tên danh mục..."
+  },
+  "checkout": {
+    "billingInfo": "Thanh toán hóa đơn",
+    "shippingInfo": "Thông tin vận chuyển",
+    "paymentInfo": "Thông tin thanh toán",
+    "finish": "Hoàn thành",
+    "fullName":"Tên đầy đủ",
+    "country":"Quốc gia",
+    "email":"Email",
+    "phone":"Số điện thoại",
+    "address":"Địa chỉ",
+    "Town/City":"Thành phố / Thị trấn",
+    "Zip/PostalCode":"Mã bưu chính"
   }
 }

@@ -6,7 +6,8 @@ import { productDetails, type ProductState } from "../ProductSlice";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../app/store";
 import { useTranslation } from "react-i18next";
-import { decrementQty, incrementQty } from "../../../user/cart/cartSlice";
+import type { DisplayCardProduct } from "../product";
+import { addToCart } from "../../../user/cart/cartSlice";
 
 
 export const ProductDetails = () => {
@@ -15,10 +16,18 @@ export const ProductDetails = () => {
     const dispatch = useAppDispatch();
     const productState: ProductState = useSelector((state: RootState) => state.product);
     const { t } = useTranslation("common");
-    const cartItems = useSelector((state: RootState) => state.cart.items); //Đồng bộ UI theo state
-    // const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
-    // const totalQty = useSelector((state: RootState) => state.cart.totalQuantity)
-    // const totalPriceItem = (price: number, qty: number) => price * qty;
+    const onSaveCart = (p: DisplayCardProduct) => {
+        dispatch(addToCart({
+            publicId: p.publicId,
+            name: p.name,
+            price: p.price,
+            image: p.image
+        }));
+        setAlert({
+            type: "success",
+            message: "Added to cart successfully",
+        });
+    };
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -45,14 +54,14 @@ export const ProductDetails = () => {
             <div className="container-fluid">
                 <div className="page-title-head d-flex align-items-center">
                     <div className="flex-grow-1">
-                        <h4 className="page-main-title m-0">Product Details</h4>
+                        <h4 className="page-main-title m-0">{t("app.productDetail")}</h4>
                     </div>
 
                     <div className="text-end">
                         <ol className="breadcrumb m-0 py-0">
                             <li className="breadcrumb-item"><a href="javascript: void(0);">Paces</a></li>
                             <li className="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                            <li className="breadcrumb-item active">Product Details</li>
+                            <li className="breadcrumb-item active">{t("app.productDetail")}</li>
                         </ol>
                     </div>
                 </div>
@@ -98,39 +107,11 @@ export const ProductDetails = () => {
                                                     </div>
                                                 </div>
                                                 {/* <!-- end carousel--> */}
-                                                {/* <div>
-                                                    <td>${productState.item?.price?.toLocaleString('vi-VN')}</td>
-                                                </div>
                                                 <div className="text-center my-3">
-                                                    <td className="text-center align-middle me-1">
-                                                        <div className="input-group" data-touchspin style={{ maxWidth: "130px" }}>
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-primary floating"
-                                                                onClick={() => dispatch(decrementQty(productState.item?.publicId))}
-                                                            >
-                                                                <i className="ti ti-minus"></i>
-                                                            </button>
-
-                                                            <input
-                                                                type="number"
-                                                                className="form-control form-control-sm border-0"
-                                                                value={productState.item?.quantity}
-                                                                max={800000}
-                                                                readOnly
-                                                            />
-
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-primary floating"
-                                                                onClick={() => dispatch(incrementQty(productState.item?.publicId))}
-                                                            >
-                                                                <i className="ti ti-plus"></i>
-                                                            </button>
-
-                                                        </div>
-                                                    </td>
-                                                </div> */}
+                                                    {/* <a onClick={() => onSaveCart(productState!.item)} className="btn btn-success">
+                                                        <i className="ti ti-basket fs-lg"></i>
+                                                    </a> */}
+                                                </div>
                                             </div>
                                             {/* <!-- end card-body--> */}
                                         </div>

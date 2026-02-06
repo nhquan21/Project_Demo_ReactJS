@@ -1,4 +1,5 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom'
 
 type FormData = {
@@ -16,6 +17,7 @@ export const FormLogin = ({ onSubmit }: FormLoginProps) => {
         handleSubmit,
         formState: { errors }
     } = useForm<FormData>();
+    const {t} = useTranslation("common");
     return (
         <div className="col-xxl-5 col-md-6 col-sm-8">
             <div className="card p-4">
@@ -35,7 +37,7 @@ export const FormLogin = ({ onSubmit }: FormLoginProps) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-3">
                         <label htmlFor="userEmail" className="form-label">
-                            Email address
+                            {t("auth.emailAddress")}
                             <span className="text-danger">*</span>
                         </label>
                         <div className="input-group">
@@ -52,7 +54,7 @@ export const FormLogin = ({ onSubmit }: FormLoginProps) => {
 
                     <div className="mb-3">
                         <label htmlFor="userPassword" className="form-label">
-                            Password
+                            {t("auth.password")}
                             <span className="text-danger">*</span>
                         </label>
                         <div className="input-group">
@@ -76,13 +78,13 @@ export const FormLogin = ({ onSubmit }: FormLoginProps) => {
                     </div>
 
                     <div className="d-grid">
-                        <button type="submit" className="btn btn-primary fw-semibold py-2">Sign In</button>
+                        <button type="submit" className="btn btn-primary fw-semibold py-2">{t("auth.signIn")}</button>
                     </div>
                 </form>
 
                 <p className="text-muted text-center mt-4 mb-0">
                     New here?
-                    <NavLink to="/sigUp" className="text-decoration-underline link-offset-3 fw-semibold">Create an account</NavLink>
+                    <NavLink to="/signUp" className="text-decoration-underline link-offset-3 fw-semibold">{t("auth.createAnAccount")}</NavLink>
                 </p>
             </div>
 

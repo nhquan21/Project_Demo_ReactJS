@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../app/store";
 import { useAuth } from "../../../guards/AuthContext";
+import { useTranslation } from "react-i18next";
 
 
 export const Checkout = () => {
@@ -8,6 +9,7 @@ export const Checkout = () => {
     const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
     const totalPriceItem = (price: number, qty: number) => price * qty;
     const { user } = useAuth();
+    const {t} = useTranslation("common");
     return (
         <>
             <div className="content-page">
@@ -41,7 +43,7 @@ export const Checkout = () => {
                                                     <span className="d-flex align-items-center justify-content-center">
                                                         <i className="ti ti-user-circle fs-24"></i>
                                                         <span className="ms-2 text-truncate">
-                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">Billing Info</span>
+                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">{t("checkout.billingInfo")}</span>
                                                         </span>
                                                     </span>
                                                 </a>
@@ -52,7 +54,7 @@ export const Checkout = () => {
                                                     <span className="d-flex align-items-center justify-content-center">
                                                         <i className="ti ti-truck fs-24"></i>
                                                         <span className="ms-2 text-truncate">
-                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">Shipping Info</span>
+                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">{t("checkout.shippingInfo")}</span>
                                                         </span>
                                                     </span>
                                                 </a>
@@ -63,7 +65,7 @@ export const Checkout = () => {
                                                     <span className="d-flex align-items-center justify-content-center">
                                                         <i className="ti ti-credit-card fs-24"></i>
                                                         <span className="ms-2 text-truncate">
-                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">Payment Info</span>
+                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">{t("checkout.paymentInfo")}</span>
                                                         </span>
                                                     </span>
                                                 </a>
@@ -74,7 +76,7 @@ export const Checkout = () => {
                                                     <span className="d-flex align-items-center justify-content-center">
                                                         <i className="ti ti-checks fs-24"></i>
                                                         <span className="ms-2 text-truncate">
-                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">Finish</span>
+                                                            <span className="mb-0 lh-base d-block fw-semibold text-body fs-md">{t("checkout.finish")}</span>
                                                         </span>
                                                     </span>
                                                 </a>
@@ -92,13 +94,13 @@ export const Checkout = () => {
                                                     <div className="row">
                                                         <div className="col-md-6">
                                                             <div className="mb-3">
-                                                                <label htmlFor="billing-first-name" className="form-label">First Name</label>
+                                                                <label htmlFor="billing-first-name" className="form-label">{t("checkout.fullName")}</label>
                                                                 <input className="form-control" type="text" placeholder="Enter your first name" value={user?.username} id="billing-first-name" />
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="mb-3">
-                                                                <label className="form-label">Country</label>
+                                                                <label className="form-label">{t("checkout.country")}</label>
                                                                 <select className="form-select">
                                                                     <option value="0">Select Country</option>
                                                                     <option value="AF">Afghanistan</option>
@@ -115,13 +117,13 @@ export const Checkout = () => {
                                                     <div className="row">
                                                         <div className="col-md-6">
                                                             <div className="mb-3">
-                                                                <label htmlFor="billing-email-address" className="form-label">Email <span className="text-danger">*</span></label>
+                                                                <label htmlFor="billing-email-address" className="form-label">{t("checkout.email")} <span className="text-danger">*</span></label>
                                                                 <input className="form-control" type="email" placeholder="Enter your email" id="billing-email-address" value={user?.email}/>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="mb-3">
-                                                                <label htmlFor="billing-phone" className="form-label">Phone <span className="text-danger">*</span></label>
+                                                                <label htmlFor="billing-phone" className="form-label">{t("checkout.phone")} <span className="text-danger">*</span></label>
                                                                 <input className="form-control" type="text" placeholder="(xx) xxx xxxx xxx" id="billing-phone" />
                                                             </div>
                                                         </div>
@@ -131,13 +133,13 @@ export const Checkout = () => {
                                                     <div className="row">
                                                         <div className="col-md-6">
                                                             <div className="mb-3">
-                                                                <label htmlFor="billing-town-city" className="form-label">Town / City</label>
+                                                                <label htmlFor="billing-town-city" className="form-label">{t("checkout.Town/City")}</label>
                                                                 <input className="form-control" type="text" placeholder="Enter your city name" id="billing-town-city" />
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="mb-3">
-                                                                <label htmlFor="billing-zip-postal" className="form-label">Zip / Postal Code</label>
+                                                                <label htmlFor="billing-zip-postal" className="form-label">{t("checkout.Zip/PostalCode")}</label>
                                                                 <input className="form-control" type="text" placeholder="Enter your zip code" id="billing-zip-postal" />
                                                             </div>
                                                         </div>
@@ -147,7 +149,7 @@ export const Checkout = () => {
                                                     <div className="row">
                                                         <div className="col-12">
                                                             <div className="mb-3">
-                                                                <label htmlFor="billing-address" className="form-label">Address <span className="text-danger">*</span></label>
+                                                                <label htmlFor="billing-address" className="form-label">{t("checkout.address")} <span className="text-danger">*</span></label>
                                                                 <textarea className="form-control" id="billing-address" rows={2} placeholder="Enter your address"></textarea>
                                                             </div>
                                                         </div>

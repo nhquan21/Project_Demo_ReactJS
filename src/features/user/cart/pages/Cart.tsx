@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../app/store";
 import { incrementQty, decrementQty, removeFromCart } from "../cartSlice";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const Cart = () => {
     const dispatch = useDispatch();//Gửi hành động thay đổi dữ liệu
@@ -9,6 +10,7 @@ export const Cart = () => {
     const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
     const totalQty = useSelector((state: RootState) => state.cart.totalQuantity)
     const FREE_SHIPPING_THRESHOLD = 1000000
+    const {t} = useTranslation("common")
 
     // % tiến độ Free Shipping
     const percent = Math.min((totalAmount / FREE_SHIPPING_THRESHOLD) * 100, 100);
@@ -51,7 +53,7 @@ export const Cart = () => {
                                     </h6>
                                 ) : (
                                     <h6 className="mb-2 text-success fw-semibold">
-                                        🎉 You’ve unlocked Free Shipping!
+                                        {t("app.freeShipping")}
                                     </h6>
                                 )}
 
@@ -71,8 +73,8 @@ export const Cart = () => {
                         <div className="col-lg-8">
                             <div className="card">
                                 <div className="card-header">
-                                    <h4 className="card-title flex-grow-1">Shopping Cart</h4>
-                                    <a href="#" className="text-decoration-underline link-offset-2 fw-medium">Clear cart</a>
+                                    <h4 className="card-title flex-grow-1">{t("app.shoppingCart")}</h4>
+                                    <a href="#" className="text-decoration-underline link-offset-2 fw-medium">{t("app.clearCart")}</a>
                                 </div>
 
                                 <div className="card-body">
@@ -81,10 +83,10 @@ export const Cart = () => {
                                         <table className="table table-custom align-middle mb-0">
                                             <thead className="bg-light align-middle bg-opacity-25 thead-sm">
                                                 <tr className="text-uppercase fs-xxs">
-                                                    <th>Product</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Total</th>
+                                                    <th>{t("app.product")}</th>
+                                                    <th>{t("product.price")}</th>
+                                                    <th>{t("product.quantity")}</th>
+                                                    <th>{t("app.total")}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -141,7 +143,7 @@ export const Cart = () => {
 
                                     {/* <!-- Continue Shopping --> */}
                                     <div className="mt-4">
-                                        <a href="apps-ecommerce-products-grid.html" className="fw-medium d-inline-flex align-items-center gap-1"> <i className="ti ti-arrow-left"></i> Continue Shopping </a>
+                                        <a href="apps-ecommerce-products-grid.html" className="fw-medium d-inline-flex align-items-center gap-1"> <i className="ti ti-arrow-left"></i> {t("app.continueShopping")} </a>
                                     </div>
                                 </div>
                             </div>
@@ -151,12 +153,12 @@ export const Cart = () => {
                         <div className="col-lg-4">
                             <div className="card">
                                 <div className="card-header">
-                                    <h4 className="card-title">Order Summary</h4>
+                                    <h4 className="card-title">{t("app.orderSummary")}</h4>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-unstyled mb-3">
                                         <li className="d-flex justify-content-between mb-2">
-                                            <span className="text-muted">Subtotal ({totalQty} items):</span>
+                                            <span className="text-muted">{t("app.subtotal")} ({totalQty} items):</span>
                                             <span>${totalAmount.toLocaleString('vi-VN')}</span>
                                         </li>
                                         <li className="d-flex justify-content-between mb-2">
@@ -168,13 +170,13 @@ export const Cart = () => {
                                             <span>Calculated at checkout</span>
                                         </li>
                                         <li className="d-flex justify-content-between">
-                                            <h6 className="text-uppercase text-muted">Estimated total:</h6>
+                                            <h6 className="text-uppercase text-muted">{t("app.estimatedtotal")}:</h6>
                                             <h5 className="fw-bold">${totalAmount.toLocaleString('vi-VN')}</h5>
                                         </li>
                                     </ul>
 
-                                    <Link to={"/checkout"} className="btn btn-lg btn-danger w-100 mb-3"> Proceed to Checkout </Link>
-                                    <p className="text-muted text-center mb-0"><a href="#" className="fw-semibold">Create an account</a> and get 239 bonuses</p>
+                                    <Link to={"/checkout"} className="btn btn-lg btn-danger w-100 mb-3"> {t("app.proceedtoCheckout")} </Link>
+                                    <p className="text-muted text-center mb-0"><a href="#" className="fw-semibold">{t("auth.createAnAccount")}</a> and get 239 bonuses</p>
                                 </div>
                             </div>
                         </div>

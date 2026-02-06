@@ -14,7 +14,27 @@
     "home":"Home",
     "cart":"Cart",
     "checkout": "Checkout",
-    "price":"Price"
+    "price":"Price",
+    "total":"Total",
+    "orderSummary":"Order Summary",
+    "subtotal":"Subtotal",
+    "proceedtoCheckout":"Proceed to Checkout",
+    "estimatedtotal":"Estimated Total",
+    "freeShipping":"🎉 You’ve unlocked Free Shipping!",
+    "clearCart":"Clear cart",
+    "shoppingCart":"Shopping Cart",
+    "continueShopping":"Continue Shopping",
+    "productDetail":"Product Details"
+  },
+  "auth": {
+    "signIn":"Sign In",
+    "signOut":"Sign Out",
+    "createAccount":"Create Account",
+    "createAnAccount":"Create an Account",
+    "lognin":"LogIn",
+    "name":"Name",
+    "emailAddress":"Email Address",
+    "password":"Password"
   },
   "button": {
     "save": "Save",
@@ -65,5 +85,18 @@
     "add": "Add Category",
     "earnings": "Earnings",
     "search": "Search category name..."
+  },
+  "checkout": {
+    "billingInfo": "Billing Info",
+    "shippingInfo": "Shipping Info",
+    "paymentInfo": "Payment Info",
+    "finish": "Finish",
+    "fullName":"Full Name",
+    "country":"Coutry",
+    "email":"Email",
+    "phone":"Phone",
+    "address":"Address",
+    "Town/City":"Town/City",
+    "Zip/PostalCode":"Zip/PostalCode"
   }
 }

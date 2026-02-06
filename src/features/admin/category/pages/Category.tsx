@@ -148,7 +148,7 @@ export const Category = () => {
                                         <i className="ti ti-circle app-search-icon text-muted"></i>
                                     </div>
 
-                                    <a href="#!" className="btn btn-primary ms-1" data-bs-toggle="modal" data-bs-target="#addCategoryModal"> <i className="ti ti-plus fs-sm me-2"></i> Add Category </a>
+                                    <a href="#!" className="btn btn-primary ms-1" data-bs-toggle="modal" data-bs-target="#addCategoryModal"> <i className="ti ti-plus fs-sm me-2"></i> {t("category.add")}</a>
                                 </div>
                             </div>
 

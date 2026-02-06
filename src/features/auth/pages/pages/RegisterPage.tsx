@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next"
 import { NavLink } from "react-router-dom"
 
 export const RegisterPage = () => {
+  const {t} = useTranslation("common");
   return (
     <>
       <div className="position-absolute top-0 end-0">
@@ -31,7 +33,7 @@ export const RegisterPage = () => {
                 <form>
                   <div className="mb-3">
                     <label htmlFor="userName" className="form-label">
-                      Name
+                      {t("auth.name")}
                       <span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
@@ -41,7 +43,7 @@ export const RegisterPage = () => {
 
                   <div className="mb-3">
                     <label htmlFor="userEmail" className="form-label">
-                      Email address
+                      {t("auth.emailAddress")}
                       <span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
@@ -51,7 +53,7 @@ export const RegisterPage = () => {
 
                   <div className="mb-3" data-password="bar">
                     <label htmlFor="userPassword" className="form-label">
-                      Password
+                      {t("auth.password")}
                       <span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
@@ -69,13 +71,13 @@ export const RegisterPage = () => {
                   </div>
 
                   <div className="d-grid">
-                    <button type="submit" className="btn btn-primary fw-semibold py-2">Create Account</button>
+                    <button type="submit" className="btn btn-primary fw-semibold py-2">{t("auth.createAccount")}</button>
                   </div>
                 </form>
 
                 <p className="text-muted text-center mt-4 mb-0">
                   Already have an account?
-                  <NavLink to="/sigIn" className="text-decoration-underline link-offset-3 fw-semibold">Login</NavLink>
+                  <NavLink to="/signIn" className="text-decoration-underline link-offset-3 fw-semibold">{t("auth.lognin")}</NavLink>
                 </p>
               </div>
 
